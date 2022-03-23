@@ -33,20 +33,21 @@ export default class Camera {
 
   private setControls() {
     document.addEventListener('keydown', e => {
-      if (e.key === 'w' || e.key === 'W') this.speedVec.z = this.speed
-      if (e.key === 's' || e.key === 'S') this.speedVec.z = -this.speed
-      if (e.key === 'a' || e.key === 'A') this.speedVec.x = -this.speed
-      if (e.key === 'd' || e.key === 'D') this.speedVec.x = this.speed
+      console.log(e.key)
+      if (e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') this.speedVec.z = this.speed
+      if (e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы') this.speedVec.z = -this.speed
+      if (e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') this.speedVec.x = -this.speed
+      if (e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') this.speedVec.x = this.speed
 
       if (e.key === 'ArrowRight') this.rotateVec.y = this.angleSpeed
       if (e.key === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
     })
 
     document.addEventListener('keyup', e => {
-      if (e.key === 'w' || e.key === 'W') this.speedVec.z = 0
-      if (e.key === 's' || e.key === 'S') this.speedVec.z = 0
-      if (e.key === 'a' || e.key === 'A') this.speedVec.x = 0
-      if (e.key === 'd' || e.key === 'D') this.speedVec.x = 0
+      if (e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') this.speedVec.z = 0
+      if (e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы') this.speedVec.z = 0
+      if (e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') this.speedVec.x = 0
+      if (e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') this.speedVec.x = 0
 
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
@@ -67,5 +68,4 @@ export default class Camera {
     this.speed = speed
     this.angleSpeed = angleSpeed
   }
-
 }
