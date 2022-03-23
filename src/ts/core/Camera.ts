@@ -12,7 +12,7 @@ export default class Camera {
   public z0: number
 
   public speed = 5
-  public angleSpeed = 3
+  public angleSpeed = 2
   private static instance: Camera
 
   private constructor(width: number) { 
@@ -33,21 +33,20 @@ export default class Camera {
 
   private setControls() {
     document.addEventListener('keydown', e => {
-      console.log(e.key)
-      if (e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') this.speedVec.z = this.speed
-      if (e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы') this.speedVec.z = -this.speed
-      if (e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') this.speedVec.x = -this.speed
-      if (e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') this.speedVec.x = this.speed
+      if (e.code === 'KeyW') this.speedVec.z = this.speed
+      if (e.code === 'KeyS') this.speedVec.z = -this.speed
+      if (e.code === 'KeyA') this.speedVec.x = -this.speed
+      if (e.code === 'KeyD') this.speedVec.x = this.speed
 
-      if (e.key === 'ArrowRight') this.rotateVec.y = this.angleSpeed
-      if (e.key === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
+      if (e.code === 'ArrowRight') this.rotateVec.y = this.angleSpeed
+      if (e.code === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
     })
 
     document.addEventListener('keyup', e => {
-      if (e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') this.speedVec.z = 0
-      if (e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы') this.speedVec.z = 0
-      if (e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') this.speedVec.x = 0
-      if (e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') this.speedVec.x = 0
+      if (e.code === 'KeyW') this.speedVec.z = 0
+      if (e.code === 'KeyS') this.speedVec.z = 0
+      if (e.code === 'KeyA') this.speedVec.x = 0
+      if (e.code === 'KeyD') this.speedVec.x = 0
 
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
