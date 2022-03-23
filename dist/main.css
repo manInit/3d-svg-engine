@@ -1,0 +1,32 @@
+/*!********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/main.css ***!
+  \********************************************************************/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+}
+
+#world {
+    width: 100vw;
+    height: 100vh;
+    background-color: #eee;
+}
+
+#map {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    background: white;
+}
+
+polygon {
+    fill: blue;
+    opacity: 0.5;
+    stroke: red;
+    stroke-width: 1;
+}
