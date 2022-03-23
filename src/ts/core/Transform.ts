@@ -21,7 +21,6 @@ export default class Transform {
 
   public static perspective(point: Point): Point {
     const z0 = Camera.getInstance().z0
-
     return {
       x: point.x * z0 / point.z,
       y: point.y * z0 / point.z,

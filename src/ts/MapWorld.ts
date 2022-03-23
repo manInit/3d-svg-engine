@@ -18,6 +18,8 @@ export default class MapWorld {
 
   constructor(idRoot: string, width: number, height: number, world: World) {
     const elem = getSVGRootElementById(idRoot)
+    elem.style.width = `${width}px`
+    elem.style.height = `${height}px`
 
     this.renderPipe = new RenderPipeMap(width, height)
     this.camera = Camera.getInstance()

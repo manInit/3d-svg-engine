@@ -9,8 +9,7 @@ const cube = new Cube(100)
 const camera = Camera.getInstance(window.innerWidth)
 
 const world = new World('world', window.innerWidth, window.innerHeight, cube.sides)
-const map = new MapWorld('map', 300, 300, world)
-
+const map = new MapWorld('map', 200, 200, world)
 
 requestAnimationFrame(function update() {
   world.render()

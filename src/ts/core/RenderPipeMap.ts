@@ -7,7 +7,7 @@ export default class RenderPipeMap extends RenderPipe  {
     const res: Point[] = []
 
     for (let point of points) {
-      point = Transform.scale(point, 1/4, 1/4, 1/4)
+      point = Transform.scale(point, 1/6, 1/6, 1/6)
       point = this.transformToAxis2D(point)
       res.push(point)
     }
