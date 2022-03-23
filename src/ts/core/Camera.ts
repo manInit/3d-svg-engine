@@ -10,10 +10,17 @@ export default class Camera {
   public zFar = 10000
   public width: number
   public z0: number
-
   public speed = 5
   public angleSpeed = 2
   private static instance: Camera
+  private keys = {
+    w: false,
+    s: false,
+    a: false,
+    d: false,
+    left: false,
+    right: false
+  }
 
   private constructor(width: number) { 
     const fov = degToRad(this.fov)
@@ -33,27 +40,41 @@ export default class Camera {
 
   private setControls() {
     document.addEventListener('keydown', e => {
-      if (e.code === 'KeyW') this.speedVec.z = this.speed
-      if (e.code === 'KeyS') this.speedVec.z = -this.speed
-      if (e.code === 'KeyA') this.speedVec.x = -this.speed
-      if (e.code === 'KeyD') this.speedVec.x = this.speed
-
+      if (!this.keys.w)
+        this.keys.w = e.code === 'KeyW'
+      if (!this.keys.s)
+        this.keys.s = e.code === 'KeyS'
+      if (!this.keys.a)
+        this.keys.a = e.code === 'KeyA'
+      if (!this.keys.d)
+        this.keys.d = e.code === 'KeyD'
+      
       if (e.code === 'ArrowRight') this.rotateVec.y = this.angleSpeed
       if (e.code === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
     })
 
     document.addEventListener('keyup', e => {
-      if (e.code === 'KeyW') this.speedVec.z = 0
-      if (e.code === 'KeyS') this.speedVec.z = 0
-      if (e.code === 'KeyA') this.speedVec.x = 0
-      if (e.code === 'KeyD') this.speedVec.x = 0
-
+      if (this.keys.w && e.code === 'KeyW') {
+        this.keys.w = false
+      }
+      if (this.keys.s && e.code === 'KeyS') {
+        this.keys.s = false
+      }
+      if (this.keys.a && e.code === 'KeyA') {
+        this.keys.a = false
+      }
+      if (this.keys.d && e.code === 'KeyD') {
+        this.keys.d = false
+      }
+      
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
     })
   }
 
   public update() {
+    this.updateSpeed()
+
     this.position.x += this.speedVec.x
     this.position.y += this.speedVec.y
     this.position.z += this.speedVec.z
@@ -61,6 +82,29 @@ export default class Camera {
     this.rotation.ax += this.rotateVec.x
     this.rotation.ay += this.rotateVec.y
     this.rotation.az += this.rotateVec.z
+  }
+
+  private updateSpeed() {
+    const vec = { x: 0, y: 0, z: 0 }
+
+    if (this.keys.w) {
+      vec.x += this.speed * Math.sin(degToRad(this.rotation.ay))
+      vec.z += this.speed * Math.cos(degToRad(this.rotation.ay))
+    } 
+    if (this.keys.s) {
+      vec.x += -this.speed * Math.sin(degToRad(this.rotation.ay))
+      vec.z += -this.speed * Math.cos(degToRad(this.rotation.ay))
+    }
+    if (this.keys.a) {
+      vec.x += -this.speed * Math.cos(degToRad(this.rotation.ay))
+      vec.z += this.speed * Math.sin(degToRad(this.rotation.ay))
+    }
+    if (this.keys.d) {
+      vec.x += this.speed * Math.cos(degToRad(this.rotation.ay))
+      vec.z += -this.speed * Math.sin(degToRad(this.rotation.ay))
+    }
+
+    this.speedVec = vec
   }
 
   public setSpeed(speed: number, angleSpeed: number) {
