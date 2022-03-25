@@ -51,6 +51,8 @@ export default class Camera {
       
       if (e.code === 'ArrowRight') this.rotateVec.y = this.angleSpeed
       if (e.code === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
+      if (e.code === 'ArrowUp') this.rotateVec.z = -this.angleSpeed
+      if (e.code === 'ArrowDown') this.rotateVec.z = this.angleSpeed
     })
 
     document.addEventListener('keyup', e => {
@@ -69,6 +71,8 @@ export default class Camera {
       
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
+      if (e.code === 'ArrowUp') this.rotateVec.z = 0
+      if (e.code === 'ArrowDown') this.rotateVec.z = 0
     })
   }
 
@@ -81,7 +85,11 @@ export default class Camera {
 
     this.rotation.ax += this.rotateVec.x
     this.rotation.ay += this.rotateVec.y
-    this.rotation.az += this.rotateVec.z
+
+    //ограничение на угол обзора вверх и вниз
+    const maxAnlge = 70
+    if (this.rotation.az > -maxAnlge && this.rotateVec.z < 0 || this.rotation.az < maxAnlge && this.rotateVec.z > 0)
+      this.rotation.az += this.rotateVec.z
   }
 
   private updateSpeed() {
