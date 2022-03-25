@@ -12,10 +12,10 @@ export default class ObjectWorld {
     this.polygon = polygon ?? null
   }
 
-  public render(): void {
+  public render(isDepth = false): void {
     if (!this.renderPipe || !this.polygon) return
 
     const projectionPoints: Point[] = this.renderPipe.render(this.points)
-    this.polygon.setPoints(projectionPoints)
+    this.polygon.setPoints(projectionPoints, isDepth)
   }
 }

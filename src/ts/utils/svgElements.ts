@@ -12,6 +12,14 @@ const createCircleElem = (cx: number, cy: number, r: number): SVGCircleElement =
   return svgCircle
 }
 
+const createSVGElem = (): SVGSVGElement => {
+  const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  if (!(elem instanceof SVGSVGElement))
+   throw new Error('Expected svg root elem')
+
+  return elem
+}
+
 const getSVGRootElementById = (id: string): SVGSVGElement => {
   const elem = document.getElementById(id)
   if (!(elem instanceof SVGSVGElement))
@@ -23,5 +31,6 @@ const getSVGRootElementById = (id: string): SVGSVGElement => {
 export {
   createPolygonElem,
   createCircleElem,
-  getSVGRootElementById
+  getSVGRootElementById,
+  createSVGElem
 }

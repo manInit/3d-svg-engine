@@ -9,7 +9,7 @@ export default class Polygon {
     this.root = svgRoot
   }
 
-  public setPoints(points: Point[]): void {
+  public setPoints(points: Point[], isDepth: boolean): void {
     this.elem.points.clear()
     
     for (const point of points) {
@@ -18,6 +18,9 @@ export default class Polygon {
       svgPoint.x = point.x 
       svgPoint.y = point.y
 
+      if (isDepth)
+        this.root.style.zIndex = Math.ceil(point.z).toString()
+      
       this.elem.points.appendItem(svgPoint)
     }
   }

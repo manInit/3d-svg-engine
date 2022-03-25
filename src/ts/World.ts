@@ -1,16 +1,16 @@
 import Polygon from './core/Polygon'
 import RenderPipe from './core/RenderPipe'
-import { createPolygonElem, getSVGRootElementById } from './utils/svgElements'
+import { createPolygonElem, createSVGElem } from './utils/svgElements'
 import ObjectWorld from './worldObject/ObjectWorld'
 
 export default class World {
-  private svgRoot: SVGSVGElement
+  private worldRoot: HTMLElement
   private renderPipe: RenderPipe
   private objects: ObjectWorld[]
 
   constructor(idRoot: string, width: number, height: number, objects: ObjectWorld[]) {
-    const elem = getSVGRootElementById(idRoot)
-    this.svgRoot = elem
+    const elem = document.getElementById(idRoot)
+    this.worldRoot = elem
 
     this.renderPipe = new RenderPipe(width, height)
     this.objects = objects
@@ -37,16 +37,19 @@ export default class World {
   public render(): void {
     this.updateRenderPipe()
     for (const obj of this.objects) {
-      obj.render()
+      obj.render(true)
     }
   }
 
   private setPolygonsToObjects(objects: ObjectWorld[]) {
     for (const obj of objects) {
-      const svgPolygon = createPolygonElem()
-      this.svgRoot.append(svgPolygon)
+      const svgRoot = createSVGElem()
+      this.worldRoot.append(svgRoot)
 
-      const polygon = new Polygon(this.svgRoot, svgPolygon)
+      const svgPolygon = createPolygonElem()
+      svgRoot.append(svgPolygon)
+
+      const polygon = new Polygon(svgRoot, svgPolygon)
       obj.polygon = polygon
     }
   }
