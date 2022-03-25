@@ -12,6 +12,8 @@ export default class Camera {
   public z0: number
   public speed = 5
   public angleSpeed = 2
+  //максимальный угол обзора вверх/вниз
+  private maxAngle = 70
   private static instance: Camera
   private keys = {
     w: false,
@@ -87,8 +89,7 @@ export default class Camera {
     this.rotation.ay += this.rotateVec.y
 
     //ограничение на угол обзора вверх и вниз
-    const maxAnlge = 70
-    if (this.rotation.az > -maxAnlge && this.rotateVec.z < 0 || this.rotation.az < maxAnlge && this.rotateVec.z > 0)
+    if (this.rotation.az > -this.maxAngle && this.rotateVec.z < 0 || this.rotation.az < this.maxAngle && this.rotateVec.z > 0)
       this.rotation.az += this.rotateVec.z
   }
 
