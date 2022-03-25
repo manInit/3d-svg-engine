@@ -6,7 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 const webpackConfig = {
   entry: './src/ts/index.ts',
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
