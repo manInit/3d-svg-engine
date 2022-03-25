@@ -69,7 +69,7 @@ export default class MapWorld {
     this.renderCameraDirection()
   }
 
-  private renderCameraDirection() {
+  private renderCameraDirection(): void {
     const point = Transform.translate(this.camera.position, -this.camera.position.x, -this.camera.position.y, -this.camera.position.z)
     let dirPoints = [{
       x: point.x,
@@ -94,7 +94,7 @@ export default class MapWorld {
     this.cameraDirection.render()
   }
 
-  private renderCameraPoint() {
+  private renderCameraPoint(): void{
     const point = Transform.translate(this.camera.position, 0, 0, 0)
     point.y = point.z
     const cameraPoint = this.renderPipe.render([point])[0]

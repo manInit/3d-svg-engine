@@ -41,7 +41,7 @@ export default class World {
     }
   }
 
-  private setPolygonsToObjects(objects: ObjectWorld[]) {
+  private setPolygonsToObjects(objects: ObjectWorld[]): void{
     for (const obj of objects) {
       const svgRoot = createSVGElem()
       this.worldRoot.append(svgRoot)

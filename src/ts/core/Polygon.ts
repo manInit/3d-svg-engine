@@ -23,9 +23,8 @@ export default class Polygon {
       svgPoint.x = point.x 
       svgPoint.y = point.y
 
-      if (isDepth)
-        this.root.style.zIndex = Math.ceil(point.z).toString()
-      
+      if (isDepth) this.root.style.zIndex = Math.ceil(point.z).toString()
+          
       this.elem.points.appendItem(svgPoint)
     }
   }

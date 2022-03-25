@@ -3,9 +3,10 @@ import Point from './Point'
 import Transform from './Transform'
 
 export default class RenderPipe {
+  protected camera: Camera
+
   private width: number
   private height: number
-  protected camera: Camera
   
   constructor(width: number, height: number) {
     this.width = width
@@ -13,7 +14,7 @@ export default class RenderPipe {
     this.camera = Camera.getInstance()
   }
 
-  render(points: Point[]): Point[] { 
+  public render(points: Point[]): Point[] { 
     const res: Point[] = []
 
     let averageDistance = 0
