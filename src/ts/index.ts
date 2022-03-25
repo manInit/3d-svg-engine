@@ -6,12 +6,12 @@ import World from './World'
 import Cube from './worldObject/Cube'
 import Pyramid from './worldObject/Pyramid'
 
-const cube = new Cube(100, 0, 0, 0)
-const p = new Pyramid(100, 0, 0, 200)
-const p1 = new Pyramid(300, 300, 0, -100)
-const p2 = new Pyramid(250, -1000, 0, 350)
+const cube = new Cube(100, 'black', 0, 0, 0)
+const p = new Pyramid(100, 'red', 0, 0, 200)
+const p1 = new Pyramid(300, 'yellow', 300, 0, -100)
+const p2 = new Pyramid(250, 'green', -1000, 0, 350)
 const camera = Camera.getInstance(window.innerWidth)
-camera.position = {x:-100, y:0, z:-200}
+camera.position = {x: -100, y: 0, z: -200}
 
 const objects = [...cube.sides, ...p.sides, ...p1.sides, ...p2.sides]
 

@@ -56,6 +56,7 @@ export default class MapWorld {
         })
       }
 
+      this.objects[index].color = obj.color
       this.objects[index].points = objPoints
       this.objects[index].render()
     }

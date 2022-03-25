@@ -4,7 +4,7 @@ import ObjectWorld from './ObjectWorld'
 export default class Cube {
   public sides: ObjectWorld[]
 
-  constructor(size: number, x: number, y: number, z: number) {
+  constructor(size: number, color: string, x: number, y: number, z: number) {
     this.sides = [
       //задняя плоскость
       new ObjectWorld([
@@ -49,6 +49,10 @@ export default class Cube {
         { x: -size / 2, y: size / 2, z: -size / 2 }
       ])
     ]
+
+    for (const obj of this.sides) {
+      obj.color = color
+    }
 
     this.translate(x, y, z)
   }

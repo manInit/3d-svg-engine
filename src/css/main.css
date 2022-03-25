@@ -28,8 +28,6 @@ body {
 }
 
 polygon {
-    fill: blue;
-    opacity: 1;
     stroke: red;
     stroke-width: 1;
 }

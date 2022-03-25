@@ -4,9 +4,14 @@ export default class Polygon {
   private elem: SVGPolygonElement
   private root: SVGSVGElement
 
-  constructor(svgRoot: SVGSVGElement, polygonElement: SVGPolygonElement) {
+  constructor(svgRoot: SVGSVGElement, polygonElement: SVGPolygonElement, color = 'blue') {
     this.elem = polygonElement
     this.root = svgRoot
+    this.elem.setAttribute('fill', color)
+  }
+
+  public setColor(color: string): void {
+    this.elem.setAttribute('fill', color)
   }
 
   public setPoints(points: Point[], isDepth: boolean): void {
