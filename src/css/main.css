@@ -25,6 +25,7 @@ body {
     position: absolute;
     border: 1px solid black;
     background: white;
+    z-index: 999999999999;
 }
 
 polygon {
