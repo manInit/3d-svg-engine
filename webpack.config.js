@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const webpackConfig = {
   entry: './src/ts/index.ts',
@@ -18,6 +19,10 @@ const webpackConfig = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      }
     ]
   },
   resolve: {
@@ -28,7 +33,12 @@ const webpackConfig = {
       template: './src/index.html',
       inject: false
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: './src/textures', to: './textures' }
+      ]
+    })
   ],
   optimization: {
     minimizer: [

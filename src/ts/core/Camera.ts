@@ -57,7 +57,7 @@ export default class Camera {
     //ограничение на угол обзора вверх и вниз
     if (this.rotation.az > -this.maxAngle && this.rotateVec.z < 0 || 
         this.rotation.az < this.maxAngle && this.rotateVec.z > 0)
-      this.rotation.az += this.rotateVec.z
+    this.rotation.az += this.rotateVec.z
   }
 
   private setControls() {
@@ -78,7 +78,6 @@ export default class Camera {
       if (this.keys.s && e.code === 'KeyS') this.keys.s = false
       if (this.keys.a && e.code === 'KeyA') this.keys.a = false
       if (this.keys.d && e.code === 'KeyD') this.keys.d = false
-      
       
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0

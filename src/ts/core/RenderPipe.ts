@@ -29,7 +29,7 @@ export default class RenderPipe {
       if (point.z < 0) continue
       if (point.z > this.camera.zFar) continue
 
-      sumDistance += Math.sqrt(point.x**2+point.y**2+point.z**2)
+      sumDistance += Math.sqrt(point.x ** 2 + point.y ** 2 + point.z ** 2)
       count++
 
       point = Transform.perspective(point)
@@ -38,10 +38,9 @@ export default class RenderPipe {
     }
 
     averageDistance = sumDistance / count
-    for (let point of res) {
+    for (let point of res) 
       point.z = 1 / averageDistance * 100000
-    }
-
+    
     return res
   }
   

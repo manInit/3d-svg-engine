@@ -25,7 +25,6 @@ requestAnimationFrame(function update() {
   map.render()
   camera.update()
 
-  cube.rotate()
   p.rotate()
 
   requestAnimationFrame(update)
