@@ -4,7 +4,7 @@ import Point from './Point'
 export default class Camera {
   public position: Point = { x: 0, y: 0, z: 0 }
   public rotation = { ax: 0, ay: 0, az: 0 }
-  public fov = 90
+  public fov = 45
   public zFar = 10000
   public width: number
   public z0: number
@@ -92,10 +92,12 @@ export default class Camera {
     if (this.keys.w) {
       vec.x += this.speed * Math.sin(degToRad(this.rotation.ay))
       vec.z += this.speed * Math.cos(degToRad(this.rotation.ay))
+      vec.y += -this.speed * Math.sin(degToRad(this.rotation.az))
     } 
     if (this.keys.s) {
       vec.x += -this.speed * Math.sin(degToRad(this.rotation.ay))
       vec.z += -this.speed * Math.cos(degToRad(this.rotation.ay))
+      vec.y += this.speed * Math.sin(degToRad(this.rotation.az))
     }
     if (this.keys.a) {
       vec.x += -this.speed * Math.cos(degToRad(this.rotation.ay))
