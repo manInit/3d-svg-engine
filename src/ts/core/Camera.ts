@@ -8,7 +8,8 @@ export default class Camera {
   public zFar = 10000
   public width: number
   public z0: number
-  public speed = 5
+  public speed
+  public startSpeed = 5
   public angleSpeed = 2
 
   private speedVec = { x: 0, y: 0, z: 0 }
@@ -21,14 +22,14 @@ export default class Camera {
     s: false,
     a: false,
     d: false,
-    left: false,
-    right: false
+    shift: false
   }
 
   private constructor(width: number) { 
     const fov = degToRad(this.fov)
     const farWidth = 2 * this.zFar * Math.tan(fov / 2)
     this.z0 = this.zFar * width / farWidth
+    this.speed = this.startSpeed
 
     this.setControls()
   }
@@ -41,6 +42,7 @@ export default class Camera {
 
   public setSpeed(speed: number, angleSpeed: number) {
     this.speed = speed
+    this.startSpeed = speed
     this.angleSpeed = angleSpeed
   }
 
@@ -66,6 +68,7 @@ export default class Camera {
       if (!this.keys.s) this.keys.s = e.code === 'KeyS'
       if (!this.keys.a) this.keys.a = e.code === 'KeyA'
       if (!this.keys.d) this.keys.d = e.code === 'KeyD'
+      if (!this.keys.shift) this.keys.shift = e.code === 'ShiftLeft'
       
       if (e.code === 'ArrowRight') this.rotateVec.y = this.angleSpeed
       if (e.code === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
@@ -73,11 +76,22 @@ export default class Camera {
       if (e.code === 'ArrowDown') this.rotateVec.z = this.angleSpeed
     })
 
+    //по клику делаем захват
+    document.querySelector('#world').addEventListener('click', () => {
+      document.querySelector('#world').requestPointerLock()
+    })
+    
+    document.addEventListener('mousemove', e => {
+      this.rotation.ay += e.movementX / 10
+      this.rotation.az += e.movementY / 10
+    })
+
     document.addEventListener('keyup', e => {
       if (this.keys.w && e.code === 'KeyW') this.keys.w = false
       if (this.keys.s && e.code === 'KeyS') this.keys.s = false
       if (this.keys.a && e.code === 'KeyA') this.keys.a = false
       if (this.keys.d && e.code === 'KeyD') this.keys.d = false
+      if (this.keys.shift && e.code === 'ShiftLeft') this.keys.shift = false
       
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
@@ -88,15 +102,20 @@ export default class Camera {
 
   private updateSpeed() {
     const vec = { x: 0, y: 0, z: 0 }
+    
+    if (this.keys.shift) this.speed += 2
+    else this.speed = this.startSpeed
 
     if (this.keys.w) {
       vec.x += this.speed * Math.sin(degToRad(this.rotation.ay))
       vec.z += this.speed * Math.cos(degToRad(this.rotation.ay))
+
       vec.y += -this.speed * Math.sin(degToRad(this.rotation.az))
     } 
     if (this.keys.s) {
       vec.x += -this.speed * Math.sin(degToRad(this.rotation.ay))
       vec.z += -this.speed * Math.cos(degToRad(this.rotation.ay))
+      
       vec.y += this.speed * Math.sin(degToRad(this.rotation.az))
     }
     if (this.keys.a) {
