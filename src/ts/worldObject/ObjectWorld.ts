@@ -8,11 +8,16 @@ export default class ObjectWorld {
   public polygon: Polygon
   public renderPipe: RenderPipe
   public color: string
+  private textureUrl: string
 
   constructor(points: Point[], polygon?: Polygon, color?: string) {
     this.points = points
     this.polygon = polygon ?? null
     this.color = color ?? null
+  }
+
+  public setTexture(url: string): void {
+    this.textureUrl = url
   }
 
   public render(isDepth = false): void {
@@ -23,12 +28,12 @@ export default class ObjectWorld {
 
     const projectionPoints: Point[] = this.renderPipe.render(this.points)
 
-    if (this.polygon.textureElem) {
+    if (this.textureUrl) {
+      this.polygon.setTexture(this.textureUrl)
       const pattern = this.polygon.textureElem.querySelector('image') as SVGImageElement
       pattern.style.transform = `rotateY(${camera.rotation.ay * Math.PI / 180})`
     }
     
-
     this.polygon.setPoints(projectionPoints, isDepth)
   }
 }

@@ -50,8 +50,10 @@ export default class Cube {
       ])
     ]
 
-    for (const obj of this.sides) obj.color = color
-
+    for (const obj of this.sides) {
+      obj.setTexture('./textures/brick.png')
+      obj.color = color
+    }
     this.translate(x, y, z)
   }
 

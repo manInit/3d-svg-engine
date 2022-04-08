@@ -52,8 +52,6 @@ export default class World {
       const polygon = new Polygon(svgRoot, svgPolygon)
       obj.polygon = polygon
     }
-
-    objects[0].polygon.setTexture('./textures/brick.png')
   }
 
   private updateRenderPipe(): void {
