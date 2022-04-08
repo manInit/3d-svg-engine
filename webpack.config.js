@@ -46,6 +46,11 @@ const webpackConfig = {
       new CssMinimizerPlugin()
     ],
   },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   output: {
     filename: 'dist.js',
     path: path.resolve(__dirname, 'dist'),

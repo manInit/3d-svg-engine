@@ -94,7 +94,7 @@ export default class MapWorld {
     this.cameraDirection.render()
   }
 
-  private renderCameraPoint(): void{
+  private renderCameraPoint(): void {
     const point = Transform.translate(this.camera.position, 0, 0, 0)
     point.y = point.z
     const cameraPoint = this.renderPipe.render([point])[0]

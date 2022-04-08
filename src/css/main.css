@@ -10,7 +10,7 @@ body {
 #world {
     width: 100vw;
     height: 100vh;
-    background-color: #eee;
+    /* background: url('../textures/seraphim.png') no-repeat, url('../textures/sky.png') repeat-x; */
 }
 
 #world svg {

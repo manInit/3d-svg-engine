@@ -1,12 +1,16 @@
+import Camera from './core/Camera'
 import Polygon from './core/Polygon'
 import RenderPipe from './core/RenderPipe'
 import { createPolygonElem, createSVGElem } from './utils/svgElements'
 import ObjectWorld from './worldObject/ObjectWorld'
+import SkyBox from './SkyBox'
 
 export default class World {
   private worldRoot: HTMLElement
   private renderPipe: RenderPipe
   private objects: ObjectWorld[]
+  private camera = Camera.getInstance()
+  public skyBox: SkyBox
 
   constructor(idRoot: string, width: number, height: number, objects: ObjectWorld[]) {
     const elem = document.getElementById(idRoot)
@@ -14,6 +18,7 @@ export default class World {
 
     this.renderPipe = new RenderPipe(width, height)
     this.objects = objects
+    this.skyBox = new SkyBox(this.worldRoot, ['../textures/seraphim.png', '../textures/sky.png'])
 
     this.setPolygonsToObjects(this.objects)
     this.updateRenderPipe()
@@ -35,6 +40,7 @@ export default class World {
   }
 
   public render(): void {
+    this.skyBox.update()
     this.updateRenderPipe()
     for (const obj of this.objects) {
       obj.render(true)

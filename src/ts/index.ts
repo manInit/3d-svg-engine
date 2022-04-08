@@ -8,7 +8,7 @@ import './engine'
 //addMap()
 //removeMap()
 
-const cube = window.cube()
+const cube = window.cube(200, 'red')
 const p = window.pyramid()
 const floor = window.floor()
 const objects = [...cube.sides, ...p.sides, ...floor.sides]
