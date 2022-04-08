@@ -6,22 +6,26 @@ export default class Polygon {
   private root: SVGSVGElement
   public textureUrl: string
   public textureElem: SVGDefsElement
+  private textureId: string
 
   constructor(svgRoot: SVGSVGElement, polygonElement: SVGPolygonElement, color = 'blue') {
     this.elem = polygonElement
     this.root = svgRoot
     this.elem.setAttribute('fill', color)
+
+    this.textureId = 'pattern' + Array.prototype.indexOf.call(document.querySelector('#world').children, svgRoot) 
   }
 
   public setTexture(textureUrl?: string): void {
     if (textureUrl) {
       this.textureUrl = textureUrl
-      const defs = createTextureElement(this.textureUrl)
+
+      const defs = createTextureElement(this.textureUrl, this.textureId)
       this.textureElem = defs
       this.root.prepend(defs)
     }
     
-    this.elem.setAttribute('fill', 'url(#img)')
+    this.elem.setAttribute('fill', `url(#${this.textureId})`)
     if (!this.textureUrl) return
   }
 
