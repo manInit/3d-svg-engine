@@ -5,9 +5,11 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
+const isDev = true
+
 const webpackConfig = {
   entry: './src/ts/index.ts',
-  mode: 'production',
+  mode: isDev ? 'development' : 'production',
   module: {
     rules: [
       {
@@ -33,7 +35,9 @@ const webpackConfig = {
       template: './src/index.html',
       inject: false
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '3dengine.css'
+    }),
     new CopyPlugin({
       patterns: [
         { from: './src/textures', to: './textures' }
@@ -52,7 +56,7 @@ const webpackConfig = {
     maxAssetSize: 512000
   },
   output: {
-    filename: 'dist.js',
+    filename: '3dengine.dist.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true
   },

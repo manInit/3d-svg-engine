@@ -1,1 +1,0 @@
-*{margin:0;padding:0}body{display:flex}#world{height:100vh;width:100vw}#world svg{height:100%;left:0;top:0;width:100%}#map,#world svg{position:absolute}#map{background:#fff;border:1px solid #000;z-index:999999999999}polygon{stroke:red;stroke-width:1}
