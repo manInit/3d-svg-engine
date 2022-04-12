@@ -11,21 +11,24 @@ export default class Camera {
   public speed
   public startSpeed = 5
   public angleSpeed = 2
-
+  
+  private worldId: string
   private speedVec = { x: 0, y: 0, z: 0 }
   private rotateVec = { x: 0, y: 0, z: 0 }
-  //максимальный угол обзора вверх/вниз
-  // private maxAngle = 70
+
   private static instance: Camera
   private keys = {
     w: false,
     s: false,
     a: false,
     d: false,
-    shift: false
+    shift: false,
+    space: false
   }
 
-  private constructor(width: number) { 
+  private constructor(width: number, worldId: string) { 
+    this.worldId = worldId
+    
     const fov = degToRad(this.fov)
     const farWidth = 2 * this.zFar * Math.tan(fov / 2)
     this.z0 = this.zFar * width / farWidth
@@ -34,9 +37,11 @@ export default class Camera {
     this.setControls()
   }
 
-  public static getInstance(width?: number) {
-    if (!Camera.instance) Camera.instance = new Camera(width ?? 500)
-    
+  public static getInstance(width?: number, worldId?: string) {
+    if (!Camera.instance) {
+      Camera.instance = new Camera(width ?? 500, `#${worldId}` ?? '#world')
+    }
+
     return Camera.instance
   }
 
@@ -56,9 +61,6 @@ export default class Camera {
     this.rotation.ax += this.rotateVec.x
     this.rotation.ay += this.rotateVec.y
 
-    //ограничение на угол обзора вверх и вниз
-    // if (this.rotation.az > -this.maxAngle && this.rotateVec.z < 0 || 
-    //     this.rotation.az < this.maxAngle && this.rotateVec.z > 0)
     this.rotation.az += this.rotateVec.z
   }
 
@@ -69,6 +71,7 @@ export default class Camera {
       if (!this.keys.a) this.keys.a = e.code === 'KeyA'
       if (!this.keys.d) this.keys.d = e.code === 'KeyD'
       if (!this.keys.shift) this.keys.shift = e.code === 'ShiftLeft'
+      if (!this.keys.space) this.keys.space = e.code === 'Space'
       
       if (e.code === 'ArrowRight') this.rotateVec.y = this.angleSpeed
       if (e.code === 'ArrowLeft') this.rotateVec.y = -this.angleSpeed
@@ -77,8 +80,8 @@ export default class Camera {
     })
 
     //по клику делаем захват
-    document.querySelector('#world').addEventListener('click', () => {
-      document.querySelector('#world').requestPointerLock()
+    document.querySelector(this.worldId).addEventListener('click', () => {
+      document.querySelector(this.worldId).requestPointerLock()
     })
     
     document.addEventListener('mousemove', e => {
@@ -92,6 +95,7 @@ export default class Camera {
       if (this.keys.a && e.code === 'KeyA') this.keys.a = false
       if (this.keys.d && e.code === 'KeyD') this.keys.d = false
       if (this.keys.shift && e.code === 'ShiftLeft') this.keys.shift = false
+      if (this.keys.space && e.code === 'Space') this.keys.space = false
       
       if (e.key === 'ArrowRight') this.rotateVec.y = 0
       if (e.key === 'ArrowLeft') this.rotateVec.y = 0
@@ -102,31 +106,34 @@ export default class Camera {
 
   private updateSpeed() {
     const vec = { x: 0, y: 0, z: 0 }
-    
-    if (this.keys.shift) this.speed += 2
-    else this.speed = this.startSpeed
+    //направляющие косинусы
+    const b = Math.cos(degToRad(this.rotation.ay))
+    const c = Math.sin(degToRad(this.rotation.az))
+    //из двух нужно определить третий ??? что-то все равно не так
+    const a = Math.sin(degToRad(this.rotation.ay))
 
     if (this.keys.w) {
-      vec.x += this.speed * Math.sin(degToRad(this.rotation.ay))
-      vec.z += this.speed * Math.cos(degToRad(this.rotation.ay))
-
-      vec.y += -this.speed * Math.sin(degToRad(this.rotation.az))
+      vec.x += this.speed * a
+      vec.z += this.speed * b
+      vec.y -= this.speed * c
     } 
     if (this.keys.s) {
-      vec.x += -this.speed * Math.sin(degToRad(this.rotation.ay))
-      vec.z += -this.speed * Math.cos(degToRad(this.rotation.ay))
-      
-      vec.y += this.speed * Math.sin(degToRad(this.rotation.az))
+      vec.x -= this.speed * a
+      vec.z -= this.speed * b
+      vec.y += this.speed * c
     }
     if (this.keys.a) {
-      vec.x += -this.speed * Math.cos(degToRad(this.rotation.ay))
-      vec.z += this.speed * Math.sin(degToRad(this.rotation.ay))
+      vec.x -= this.speed * b
+      vec.z += this.speed * a
     }
     if (this.keys.d) {
-      vec.x += this.speed * Math.cos(degToRad(this.rotation.ay))
-      vec.z += -this.speed * Math.sin(degToRad(this.rotation.ay))
+      vec.x += this.speed * b
+      vec.z -= this.speed * a
     }
 
+    if (this.keys.shift) vec.y -= this.speed
+    if (this.keys.space) vec.y += this.speed
+    
     this.speedVec = vec
   }
 }
