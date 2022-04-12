@@ -1,15 +1,14 @@
-import Camera from './core/Camera'
 import Polygon from './core/Polygon'
 import RenderPipe from './core/RenderPipe'
 import { createPolygonElem, createSVGElem } from './utils/svgElements'
 import ObjectWorld from './worldObject/ObjectWorld'
 import SkyBox from './SkyBox'
+import ComplexObject from './worldObject/ComplexObject'
 
 export default class World {
   private worldRoot: HTMLElement
   private renderPipe: RenderPipe
   private objects: ObjectWorld[]
-  private camera = Camera.getInstance()
   public skyBox: SkyBox
 
   constructor(idRoot: string, width: number, height: number, objects: ObjectWorld[]) {
@@ -18,13 +17,21 @@ export default class World {
 
     this.renderPipe = new RenderPipe(width, height)
     this.objects = objects
-    this.skyBox = new SkyBox(this.worldRoot, ['../textures/seraphim.png', '../textures/sky.png'])
+    this.skyBox = new SkyBox(this.worldRoot, './textures/sky.png')
 
     this.setPolygonsToObjects(this.objects)
     this.updateRenderPipe()
   }
 
-  public addObject(objects: ObjectWorld[]): void {
+  public add(complexObjects: ComplexObject[]): void {
+    for (const obj of complexObjects) {
+      if (!obj.sides) continue
+
+      this.addObjects(obj.sides)
+    }
+  }
+
+  public addObjects(objects: ObjectWorld[]): void {
     this.setPolygonsToObjects(objects)
 
     this.objects.push(...objects)

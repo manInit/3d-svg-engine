@@ -3,30 +3,44 @@ import Camera from './core/Camera'
 export default class SkyBox {
   private elem: HTMLElement
   private bgPos: number 
-  private imagePos: number
+  private imageWidth = 0
   private camera = Camera.getInstance()
-  private imageWidth: number
   
-  constructor(elem: HTMLElement, urlImage: string[]) {
+  constructor(elem: HTMLElement, urlImage: string) {
     this.elem = elem
-    const bg = urlImage.reduce((prev, url) => prev += `url(${url}), `, '')
-    console.log(bg)
-    this.elem.style.backgroundImage = bg.slice(0, -2) 
-    this.elem.style.backgroundSize = '25%, cover'
-    this.elem.style.backgroundRepeat = 'no-repeat, repeat-x'
 
-    this.imageWidth = 2048
+    this.elem.style.backgroundImage = `url(${urlImage})`
+    this.elem.style.backgroundSize = 'cover'
+    this.elem.style.backgroundRepeat = 'repeat-x'
+    
+    this.getWidthImage(urlImage)
   }
 
-  public setPostion(bg: number, image: number): void {
+  private async getWidthImage(urlImage: string) {
+    const img = new Image()
+    img.src = urlImage
+    try {
+      const width = await (new Promise((resolve, reject) => {
+        img.onload = () => resolve(img.width)
+        img.onerror = () => reject(new Error('Error load image'))
+      })) as number
+      this.imageWidth = width
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  public updateImage(urlImage: string) {
+    this.elem.style.backgroundImage = `url(${urlImage})`
+    this.getWidthImage(urlImage)
+  }
+
+  public setPostion(bg: number): void {
     this.bgPos = bg 
-    this.imagePos = image
   }
 
   public update() {
-    this.bgPos = this.imageWidth * this.camera.rotation.ay / 360
-    this.imagePos = 2 * this.bgPos
-    this.elem.style.backgroundPosition = `${-this.imagePos}px 50%, ${-this.bgPos}px 0px`
-    console.log(this.elem.style.backgroundPosition)
+    this.bgPos = this.imageWidth * this.camera.rotation.ay / 360    
+    this.elem.style.backgroundPosition = `${-this.bgPos}px 0px`
   }
 }

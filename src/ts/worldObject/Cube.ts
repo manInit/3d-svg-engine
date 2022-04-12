@@ -1,10 +1,9 @@
-import Transform from '../core/Transform'
+import ComplexObject from './ComplexObject'
 import ObjectWorld from './ObjectWorld'
 
-export default class Cube {
-  public sides: ObjectWorld[]
-
+export default class Cube extends ComplexObject {
   constructor(size: number, color: string, x: number, y: number, z: number) {
+    super()
     this.sides = [
       //задняя плоскость
       new ObjectWorld([
@@ -49,23 +48,8 @@ export default class Cube {
         { x: -size / 2, y: size / 2, z: -size / 2 }
       ])
     ]
-
-    for (const obj of this.sides) {
-      obj.setTexture('./textures/brick.png')
-      obj.color = color
-    }
+    
+    for (const obj of this.sides) obj.color = color
     this.translate(x, y, z)
-  }
-
-  public translate(x: number, y: number, z: number) {
-    for (const obj of this.sides) 
-      for (let i = 0; i < obj.points.length; i++) 
-        obj.points[i] = Transform.translate(obj.points[i], x, y, z)
-  }
-
-  public rotate() {
-    for (const obj of this.sides) 
-      for (let i = 0; i < obj.points.length; i++) 
-        obj.points[i] = Transform.rotateY(obj.points[i], 1)
   }
 }

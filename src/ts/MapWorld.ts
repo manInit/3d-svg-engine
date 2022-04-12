@@ -15,37 +15,47 @@ export default class MapWorld {
   private cameraDirection: ObjectWorld
   private camera: Camera
   private renderPipe: RenderPipe
+  private rootElem: SVGSVGElement
+  private elemCount = 0
 
   constructor(idRoot: string, width: number, height: number, world: World) {
-    const elem = getSVGRootElementById(idRoot)
-    elem.style.width = `${width}px`
-    elem.style.height = `${height}px`
+    this.rootElem = getSVGRootElementById(idRoot)
+    this.rootElem.style.width = `${width}px`
+    this.rootElem.style.height = `${height}px`
 
     this.renderPipe = new RenderPipeMap(width, height)
     this.camera = Camera.getInstance()
 
     this.world = world
     this.objects = []
+  }
 
+  private updateElements() {
+    this.rootElem.innerHTML = ''
+    
     this.cameraObject = createCircleElem(0, 0, 3)
-    elem.append(this.cameraObject)
-
+    this.rootElem.append(this.cameraObject)
     const svgPolygon = createPolygonElem()
-    elem.append(svgPolygon)
-    const polygon = new Polygon(elem, svgPolygon)
+    this.rootElem.append(svgPolygon)
+    const polygon = new Polygon(this.rootElem, svgPolygon)
     this.cameraDirection = new ObjectWorld([], polygon)
     this.cameraDirection.renderPipe = this.renderPipe
-    
+
     for (let i = 0; i < this.world.getObjects().length; i++) {
       const svgPolygon = createPolygonElem()
-      elem.append(svgPolygon)
-      const polygon = new Polygon(elem, svgPolygon)
+      this.rootElem.append(svgPolygon)
+      const polygon = new Polygon(this.rootElem, svgPolygon)
       this.objects.push(new ObjectWorld([], polygon))
     }
+    this.elemCount = this.world.getObjects().length
   }
 
   public render(): void {
     this.updateRenderPipe()
+
+    if (this.elemCount !== this.world.getObjects().length)
+      this.updateElements()
+
     for (const [index, obj] of this.world.getObjects().entries()) {
       const objPoints: Point[] = []
       for (const point of obj.points) {

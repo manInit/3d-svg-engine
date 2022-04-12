@@ -7,13 +7,13 @@ body {
     display: flex;
 }
 
-#world {
+#worldElem {
     width: 100vw;
     height: 100vh;
     /* background: url('../textures/seraphim.png') no-repeat, url('../textures/sky.png') repeat-x; */
 }
 
-#world svg {
+#worldElem svg {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -21,7 +21,7 @@ body {
     left: 0;
 }
 
-#map {
+#mapElem {
     position: absolute;
     border: 1px solid black;
     background: white;

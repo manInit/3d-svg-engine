@@ -13,7 +13,7 @@ export default class Polygon {
     this.root = svgRoot
     this.elem.setAttribute('fill', color)
 
-    this.textureId = 'pattern' + Array.prototype.indexOf.call(document.querySelector('#world').children, svgRoot) 
+    // this.textureId = 'pattern' + Array.prototype.indexOf.call(document.querySelector('#world').children, svgRoot) 
   }
 
   public setTexture(textureUrl?: string): void {
