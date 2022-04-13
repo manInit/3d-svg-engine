@@ -5,7 +5,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
-const isDev = true
+const isDev = false
 
 const webpackConfig = {
   entry: './src/ts/index.ts',
