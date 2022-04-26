@@ -38,8 +38,6 @@ export default class Camera {
     this.rotation.ay += this.rotationSpeed.ay
 
     this.changeZAngle(this.rotationSpeed.az)
-
-    console.log(Math.abs(this.rotation.az), this.azMax)
   }
 
   private changeZAngle(daz: number) {

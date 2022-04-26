@@ -76,9 +76,19 @@ export default class World {
     }
   
     //отсоритровать по averageDistance
-    this.polygons.sort((p1, p2) => p1.averageDistance - p2.averageDistance)
-    for (let i = 0; i < this.polygons.length - 1; i++) {
-      this.svgRoot.insertBefore(this.polygons[i + 1].tagElem, this.polygons[i].tagElem)
+    this.polygons.sort((p1, p2) => p2.averageDistance - p1.averageDistance)
+    //изменяем  dom
+    let jStart = 0
+    let i = 0
+    while (this.polygons[i].tagElem.isEqualNode(this.svgRoot.children[i])) {
+      i++
+      jStart = i
+
+      if (jStart >= this.polygons.length - 1) return
+    }
+
+    for (let j = jStart; j < this.polygons.length; j++) {
+      this.svgRoot.insertBefore(this.polygons[j].tagElem, this.svgRoot.children[j])
     }
   }
 }

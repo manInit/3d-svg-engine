@@ -5,13 +5,20 @@ import RenderPipe from './RenderPipe'
 export default class Polygon {
   private root: SVGSVGElement
   private elem: SVGPolygonElement
+
   public points: Point[]
   public averageDistance: number
 
-  constructor(points: Point[] = []) {
+  constructor(points: Point[] = [], color = 'black') {
     this.root = createSVGElem()
     this.elem = createPolygonElem()
+    this.elem.setAttribute('fill', color)
+
     this.points = points
+  }
+
+  set fillColor(color: string) {
+    this.elem.setAttribute('fill', color)
   }
 
   get tagElem(): SVGPolygonElement {
