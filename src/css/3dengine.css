@@ -24,3 +24,8 @@ polygon {
     height: 100vh;
     overflow-y: hidden;
 }
+
+.wallpaper {
+    background-repeat: repeat-x;
+    background-size: cover;
+}

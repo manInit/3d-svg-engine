@@ -12,6 +12,7 @@ export default class World {
   private svgRoot: SVGSVGElement
   private root: HTMLElement
   private camera: Camera
+  private bgWidth = 0
 
   private zFar = 1000000
   private fov = 45
@@ -20,11 +21,22 @@ export default class World {
     this.svgRoot = createSVGElem()
     root.append(this.svgRoot)
     this.root = root
+    this.root.classList.add('wallpaper')
 
     const z0 = this.calcZ0(this.fov, this.zFar)
     this.camera = new Camera(root)
 
     this.renderPipe = new RenderPipe(root.clientWidth, root.clientHeight, z0, this.zFar, this.camera)
+  }
+
+  public setBackground(url: string): void {
+    const image = new Image()
+    image.src = url
+
+    image.onload = () => {
+      this.root.style.backgroundImage = `url(${url})`
+      this.bgWidth = image.width
+    }
   }
 
   public addObjects(...objects: ObjectWorld[]) {
@@ -70,6 +82,11 @@ export default class World {
 
   private render(): void {
     this.camera.update()
+
+    const maxBgPos = this.bgWidth + this.root.clientWidth
+    const a = this.camera.rotation.ay
+    const xPos = a * maxBgPos / 360
+    this.root.style.backgroundPositionX = -xPos + 'px'
 
     for (const p of this.polygons) {
       p.render(this.renderPipe)
