@@ -4,15 +4,18 @@ import { createSVGElem } from '../utils/svgElements'
 import { degToRad } from '../utils/angle'
 import Camera from './Camera'
 import Polygon from './Polygon'
+import BackgroundElem from '../ObjectsWorld/BackgroundElem'
 
 export default class World {
   private renderPipe: RenderPipe
   private objects: ObjectWorld[] = []
   private polygons: Polygon[] = []
+  private bgElems: BackgroundElem[] = []
   private svgRoot: SVGSVGElement
   private root: HTMLElement
   private camera: Camera
-  private bgWidth = 0
+  private bg = { width: 0, url: '' }
+  private styleString = ''
 
   private zFar = 1000000
   private fov = 45
@@ -29,13 +32,50 @@ export default class World {
     this.renderPipe = new RenderPipe(root.clientWidth, root.clientHeight, z0, this.zFar, this.camera)
   }
 
+  public addBgElem(...elems: BackgroundElem[]) {
+    for (const elem of elems) {
+      this.styleString += elem.styleBg + ','
+    }
+    this.root.style.background = this.styleString.slice(0, -1)
+    this.bgElems.push(...elems)
+  }
+
+  private updateBg() {
+    this.styleString = ''
+    let bgSizes = ''
+
+    for (let i = 0; i < this.bgElems.length; i++) {
+      this.bgElems[i].update(this.root.clientWidth, this.camera.rotation.ay)
+      this.styleString += this.bgElems[i].styleBg
+      bgSizes += '100px'
+      if (i < this.bgElems.length - 1) {
+        this.styleString += ', '
+        bgSizes += ', '
+      }
+    }
+  
+    if (this.bgElems.length !== 0) {
+      bgSizes += ', '
+      this.styleString += ', ' 
+    }
+      
+    const maxBgPos = this.bg.width + this.root.clientWidth
+    const a = this.camera.rotation.ay
+    const xPos = a * maxBgPos / 360
+
+    this.styleString += `url("${this.bg.url}") ${-xPos}px 0 repeat-x` 
+    bgSizes += 'cover'
+
+    this.root.style.background = this.styleString
+    this.root.style.backgroundSize = bgSizes
+  }
+
   public setBackground(url: string): void {
     const image = new Image()
     image.src = url
-
+    this.bg.url = url
     image.onload = () => {
-      this.root.style.backgroundImage = `url(${url})`
-      this.bgWidth = image.width
+      this.bg.width = image.width
     }
   }
 
@@ -82,16 +122,12 @@ export default class World {
 
   private render(): void {
     this.camera.update()
-
-    const maxBgPos = this.bgWidth + this.root.clientWidth
-    const a = this.camera.rotation.ay
-    const xPos = a * maxBgPos / 360
-    this.root.style.backgroundPositionX = -xPos + 'px'
+    this.updateBg()
 
     for (const p of this.polygons) {
       p.render(this.renderPipe)
     }
-  
+    console.log(this.camera.rotation)
     //отсоритровать по averageDistance
     this.polygons.sort((p1, p2) => p2.averageDistance - p1.averageDistance)
     //изменяем  dom
