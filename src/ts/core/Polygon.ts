@@ -8,6 +8,7 @@ export default class Polygon {
   private root: SVGSVGElement
   private elem: SVGPolygonElement
   private textrueElem: SVGDefsElement
+  private number: number
 
   public points: Point[]
   public averageDistance: number
@@ -20,6 +21,7 @@ export default class Polygon {
     this.points = points
 
     Polygon.count++
+    this.number = Polygon.count
   }
 
   set fillColor(color: string) {
@@ -35,7 +37,7 @@ export default class Polygon {
   }
 
   public setTexture(url: string) {
-    this.elem.id = 'defs-' + Polygon.count
+    this.elem.id = 'defs-' + this.number
     this.textrueElem = createTextureElement(url, this.elem.id)
     this.elem.setAttribute('fill', `url(#${this.elem.id})`)
   }

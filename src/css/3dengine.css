@@ -29,3 +29,8 @@ polygon {
     background-repeat: repeat-x;
     background-size: cover;
 }
+
+.menu {
+    position: absolute;
+    top: 0;
+}

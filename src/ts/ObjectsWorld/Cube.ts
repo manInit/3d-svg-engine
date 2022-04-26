@@ -53,6 +53,5 @@ export default class Cube extends ObjectWorld {
     for (const p of this.polygons) p.setTexture(texture)
 
     this.translate(-center.x, -center.y, -center.z)
-    this.rotate(60, 0, 0)
   }
 }

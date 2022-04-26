@@ -35,6 +35,10 @@ export default class World {
     this.renderPipe = new RenderPipe(root.clientWidth, root.clientHeight, z0, this.zFar, this.camera)
   }
 
+  get svgRootElement(): SVGSVGElement {
+    return this.svgRoot
+  }
+
   public addBgElem(...elems: BackgroundElem[]) {
     for (const elem of elems) {
       this.styleString += elem.styleBg + ','
