@@ -17,8 +17,9 @@ export default class Camera {
     space: false
   }
 
-  private angleSpeed = 10
+  private angleSpeed = 3
   private speed = 0.5
+  private azMax = 70
 
   constructor(root: HTMLElement) { 
     this.root = root
@@ -35,7 +36,18 @@ export default class Camera {
 
     this.rotation.ax += this.rotationSpeed.ax
     this.rotation.ay += this.rotationSpeed.ay
-    this.rotation.az += this.rotationSpeed.az
+
+    this.changeZAngle(this.rotationSpeed.az)
+
+    console.log(Math.abs(this.rotation.az), this.azMax)
+  }
+
+  private changeZAngle(daz: number) {
+    if (Math.abs(this.rotation.az) < this.azMax) {
+      this.rotation.az += daz
+    } else if (this.rotation.az > 0 && daz < 0 || this.rotation.az < 0 && daz > 0) {
+      this.rotation.az += daz
+    }
   }
 
   private updateSpeed() {
@@ -75,7 +87,7 @@ export default class Camera {
   private setControls() {
     const mousemoveHandler = (e: MouseEvent) => {
       this.rotation.ay += e.movementX / 10
-      this.rotation.az += e.movementY / 10
+      this.changeZAngle(e.movementY / 10)
     }
 
     const keyUpListener = (e: KeyboardEvent) => {
