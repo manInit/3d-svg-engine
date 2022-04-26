@@ -1,10 +1,13 @@
-import { createPolygonElem, createSVGElem } from '../utils/svgElements'
+import { createPolygonElem, createSVGElem, createTextureElement } from '../utils/svgElements'
 import Point from './Point'
 import RenderPipe from './RenderPipe'
 
 export default class Polygon {
+  public static count = 0
+
   private root: SVGSVGElement
   private elem: SVGPolygonElement
+  private textrueElem: SVGDefsElement
 
   public points: Point[]
   public averageDistance: number
@@ -15,6 +18,8 @@ export default class Polygon {
     this.elem.setAttribute('fill', color)
 
     this.points = points
+
+    Polygon.count++
   }
 
   set fillColor(color: string) {
@@ -23,6 +28,16 @@ export default class Polygon {
 
   get tagElem(): SVGPolygonElement {
     return this.elem
+  }
+
+  get texture(): SVGDefsElement {
+    return this.textrueElem
+  }
+
+  public setTexture(url: string) {
+    this.elem.id = 'defs-' + Polygon.count
+    this.textrueElem = createTextureElement(url, this.elem.id)
+    this.elem.setAttribute('fill', `url(#${this.elem.id})`)
   }
 
   public render(renderPipe: RenderPipe): void {

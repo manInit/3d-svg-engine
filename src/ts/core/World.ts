@@ -1,6 +1,6 @@
 import ObjectWorld from './ObjectWorld'
 import RenderPipe from './RenderPipe'
-import { createSVGElem } from '../utils/svgElements'
+import { createSVGElem, createSVGGElem } from '../utils/svgElements'
 import { degToRad } from '../utils/angle'
 import Camera from './Camera'
 import Polygon from './Polygon'
@@ -12,6 +12,7 @@ export default class World {
   private polygons: Polygon[] = []
   private bgElems: BackgroundElem[] = []
   private svgRoot: SVGSVGElement
+  private groupObject: SVGGElement
   private root: HTMLElement
   private camera: Camera
   private bg = { width: 0, url: '' }
@@ -22,6 +23,8 @@ export default class World {
 
   constructor(root: HTMLElement) {
     this.svgRoot = createSVGElem()
+    this.groupObject = createSVGGElem()
+    this.svgRoot.append(this.groupObject)
     root.append(this.svgRoot)
     this.root = root
     this.root.classList.add('wallpaper')
@@ -82,7 +85,9 @@ export default class World {
   public addObjects(...objects: ObjectWorld[]) {
     for (const obj of objects) {
       for (const p of obj.polygons) {
-        this.svgRoot.append(p.tagElem)
+        if (p.texture)
+          this.svgRoot.prepend(p.texture)
+        this.groupObject.append(p.tagElem)
         this.polygons.push(p)
       }
     }
@@ -127,13 +132,12 @@ export default class World {
     for (const p of this.polygons) {
       p.render(this.renderPipe)
     }
-    console.log(this.camera.rotation)
     //отсоритровать по averageDistance
     this.polygons.sort((p1, p2) => p2.averageDistance - p1.averageDistance)
     //изменяем  dom
     let jStart = 0
     let i = 0
-    while (this.polygons[i].tagElem.isEqualNode(this.svgRoot.children[i])) {
+    while (this.polygons[i].tagElem.isEqualNode(this.groupObject.children[i])) {
       i++
       jStart = i
 
@@ -141,7 +145,7 @@ export default class World {
     }
 
     for (let j = jStart; j < this.polygons.length; j++) {
-      this.svgRoot.insertBefore(this.polygons[j].tagElem, this.svgRoot.children[j])
+      this.groupObject.insertBefore(this.polygons[j].tagElem, this.groupObject.children[j])
     }
   }
 }

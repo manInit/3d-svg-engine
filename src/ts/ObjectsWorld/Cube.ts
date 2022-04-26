@@ -3,7 +3,7 @@ import Point from '../core/Point'
 import Polygon from '../core/Polygon'
 
 export default class Cube extends ObjectWorld {
-  constructor(size: number, center: Point, color = 'black') {
+  constructor(size: number, center: Point, color = 'black', texture?: string) {
     super()
     this.polygons = [
       //задняя плоскость
@@ -49,6 +49,8 @@ export default class Cube extends ObjectWorld {
         { x: -size / 2, y: size / 2, z: -size / 2 }
       ], color)
     ]
+
+    for (const p of this.polygons) p.setTexture(texture)
 
     this.translate(-center.x, -center.y, -center.z)
     this.rotate(60, 0, 0)
