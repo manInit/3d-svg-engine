@@ -18,7 +18,7 @@ export default class Camera {
   }
 
   private angleSpeed = 3
-  private speed = 0.5
+  private speed = 2
   private azMax = 70
 
   constructor(root: HTMLElement) { 
@@ -38,6 +38,9 @@ export default class Camera {
     this.rotation.ay += this.rotationSpeed.ay
 
     this.changeZAngle(this.rotationSpeed.az)
+    this.rotation.ax %= 360
+    this.rotation.ay %= 360
+    this.rotation.az %= 360
   }
 
   private changeZAngle(daz: number) {

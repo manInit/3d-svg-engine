@@ -14,7 +14,7 @@ export default class World {
   private camera: Camera
 
   private zFar = 1000000
-  private fov = 90
+  private fov = 45
 
   constructor(root: HTMLElement) {
     this.svgRoot = createSVGElem()
