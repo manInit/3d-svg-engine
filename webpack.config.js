@@ -2,7 +2,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
 const isDev = false
@@ -27,6 +26,7 @@ const webpackConfig = {
       }
     ]
   },
+  devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js']
   },
@@ -46,7 +46,6 @@ const webpackConfig = {
   ],
   optimization: {
     minimizer: [
-      new TerserPlugin(),
       new CssMinimizerPlugin()
     ],
   },
@@ -61,9 +60,7 @@ const webpackConfig = {
     clean: true
   },
   devServer: {
-		static: './dist',
 		open: true,
-		hot: true
 	}
 }
 

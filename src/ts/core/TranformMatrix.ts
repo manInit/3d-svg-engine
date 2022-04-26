@@ -1,8 +1,7 @@
 import Point from './Point'
 import { degToRad } from '../utils/angle'
-import Camera from './Camera'
 
-export default class Transform {
+export default class TransformMatrix {
   public static translate(point: Point, x: number, y: number, z: number): Point {
     return {
       x: point.x + x,
@@ -19,8 +18,7 @@ export default class Transform {
     }
   }
 
-  public static perspective(point: Point): Point {
-    const z0 = Camera.getInstance().z0
+  public static perspectiveProjection(point: Point, z0: number): Point {
     return {
       x: point.x * z0 / point.z,
       y: point.y * z0 / point.z,

@@ -1,62 +1,55 @@
 import Camera from './Camera'
 import Point from './Point'
-import Transform from './Transform'
+import TransformMatrix from './TranformMatrix'
 
 export default class RenderPipe {
-  protected camera: Camera
-
-  private width: number
+  private width: number 
   private height: number
-  
-  constructor(width: number, height: number) {
+  private z0: number
+  private zFar: number
+  private camera: Camera
+
+  constructor(width: number, height: number, z0: number, zFar: number, camera: Camera) {
     this.width = width
     this.height = height
-    this.camera = Camera.getInstance()
+
+    this.z0 = z0
+    this.zFar = zFar
+    this.camera = camera
   }
 
-  public render(points: Point[]): Point[] { 
-    const res: Point[] = []
+  public convertPoints(points: Point[]): { points: Point[], averageDistance: number } {
+    const resPoints: Point[] = []
 
-    let averageDistance = 0
     let sumDistance = 0
-    let count = 0
-
     for (let point of points) {
       point = this.cameraTranslate(point)
       point = this.cameraRotate(point)
 
       //передняя и дальняя плоскость отсечения
       if (point.z < 0) continue
-      if (point.z > this.camera.zFar) continue
+      if (point.z > this.zFar) continue
 
       sumDistance += Math.sqrt(point.x ** 2 + point.y ** 2 + point.z ** 2)
-      count++
 
-      point = Transform.perspective(point)
-      point = this.transformToAxis2D(point)
-      res.push(point)
+      point = TransformMatrix.perspectiveProjection(point, this.z0)
+      point = TransformMatrix.scale(point, 1, -1, 1)
+      point = TransformMatrix.translate(point, this.width / 2, this.height / 2, 0)
+
+      resPoints.push(point)
     }
+    const averageDistance = sumDistance / resPoints.length
 
-    averageDistance = sumDistance / count
-    for (let point of res) 
-      point.z = 1 / averageDistance * 100000
-    
-    return res
-  }
-  
-  public cameraTranslate(point: Point): Point {
-    return Transform.translate(point, -this.camera.position.x, -this.camera.position.y, -this.camera.position.z)
+    return { points: resPoints, averageDistance }
   }
 
-  public cameraRotate(point: Point): Point {
-    point = Transform.rotateX(point, this.camera.rotation.ax)
-    point = Transform.rotateY(point, this.camera.rotation.ay)
-    return Transform.rotateX(point, this.camera.rotation.az)
+  private cameraTranslate(point: Point): Point {
+    return TransformMatrix.translate(point, -this.camera.position.x, -this.camera.position.y, -this.camera.position.z)
   }
 
-  public transformToAxis2D(point: Point): Point {
-    point = Transform.scale(point, 1, -1, 1)
-    point = Transform.translate(point, this.width / 2, this.height / 2, 0)
-    return point
+  private cameraRotate(point: Point): Point {
+    point = TransformMatrix.rotateX(point, this.camera.rotation.ax)
+    point = TransformMatrix.rotateY(point, this.camera.rotation.ay)
+    return TransformMatrix.rotateX(point, this.camera.rotation.az)
   }
 }

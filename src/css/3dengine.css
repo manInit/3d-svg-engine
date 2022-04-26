@@ -1,34 +1,26 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-body {
-    display: flex;
+body, html {
+    height: 100%;
+    width: 100%;
 }
 
-#worldElem {
-    width: 100vw;
-    height: 100vh;
-    /* background: url('../textures/seraphim.png') no-repeat, url('../textures/sky.png') repeat-x; */
-}
-
-#worldElem svg {
+svg {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-#mapElem {
-    position: absolute;
-    border: 1px solid black;
-    background: white;
-    z-index: 999999999999;
 }
 
 polygon {
     stroke: red;
     stroke-width: 1;
+}
+
+#world {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: hidden;
 }

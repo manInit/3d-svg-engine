@@ -1,55 +1,56 @@
-import ComplexObject from './ComplexObject'
-import ObjectWorld from './ObjectWorld'
+import ObjectWorld from '../core/ObjectWorld'
+import Point from '../core/Point'
+import Polygon from '../core/Polygon'
 
-export default class Cube extends ComplexObject {
-  constructor(size: number, color: string, x: number, y: number, z: number) {
+export default class Cube extends ObjectWorld {
+  constructor(size: number, center: Point) {
     super()
-    this.sides = [
+    this.polygons = [
       //задняя плоскость
-      new ObjectWorld([
+      new Polygon([
         { x: -size / 2, y: -size / 2, z: -size / 2 },
         { x: size / 2, y: -size / 2, z: -size / 2 },
         { x: size / 2, y: size / 2, z: -size / 2 },
         { x: -size / 2, y: size / 2, z: -size / 2 }
       ]),
       //передняя плоскость
-      new ObjectWorld([
+      new Polygon([
         { x: -size / 2, y: -size / 2, z: size / 2 },
         { x: size / 2, y: -size / 2, z: size / 2 },
         { x: size / 2, y: size / 2, z: size / 2 },
         { x: -size / 2, y: size / 2, z: size / 2 }
       ]),
       //верхняя
-      new ObjectWorld([
+      new Polygon([
         { x: -size / 2, y: size / 2, z: -size / 2 },
         { x: size / 2, y: size / 2, z: -size / 2 },
         { x: size / 2, y: size / 2, z: size / 2 },
         { x: -size / 2, y: size / 2, z: size / 2 }
       ]),
       //нижняя
-      new ObjectWorld([
+      new Polygon([
         { x: -size / 2, y: -size / 2, z: -size / 2 },
         { x: size / 2, y: -size / 2, z: -size / 2 },
         { x: size / 2, y: -size / 2, z: size / 2 },
         { x: -size / 2, y: -size / 2, z: size / 2 }
       ]),
       // правая
-      new ObjectWorld([
+      new Polygon([
         { x: size / 2, y: -size / 2, z: -size / 2 },
         { x: size / 2, y: -size / 2, z: size / 2 },
         { x: size / 2, y: size / 2, z: size / 2 },
         { x: size / 2, y: size / 2, z: -size / 2 }
       ]),
       //левая
-      new ObjectWorld([
+      new Polygon([
         { x: -size / 2, y: -size / 2, z: -size / 2 },
         { x: -size / 2, y: -size / 2, z: size / 2 },
         { x: -size / 2, y: size / 2, z: size / 2 },
         { x: -size / 2, y: size / 2, z: -size / 2 }
       ])
     ]
-    
-    for (const obj of this.sides) obj.color = color
-    this.translate(x, y, z)
+
+    this.translate(-center.x, -center.y, -center.z)
+    this.rotate(60, 0, 0)
   }
 }
