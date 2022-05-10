@@ -132,6 +132,7 @@ export default class World {
   private render(): void {
     this.camera.update()
     this.updateBg()
+    if (this.polygons.length === 0) return
 
     for (const p of this.polygons) {
       p.render(this.renderPipe)

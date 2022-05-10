@@ -50,8 +50,9 @@ export default class Cube extends ObjectWorld {
       ], color)
     ]
 
-    for (const p of this.polygons) p.setTexture(texture)
-
+    if (texture) {
+      for (const p of this.polygons) p.setTexture(texture)
+    }
     this.translate(-center.x, -center.y, -center.z)
   }
 }

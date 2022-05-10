@@ -7,12 +7,12 @@ const CopyPlugin = require('copy-webpack-plugin')
 const isDev = false
 
 const webpackConfig = {
-  entry: './src/ts/index.ts',
+  entry: './src/ts/index.js',
   mode: isDev ? 'development' : 'production',
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.[tj]s$/,
         use: 'ts-loader',
         exclude: '/node_modules/'
       },
