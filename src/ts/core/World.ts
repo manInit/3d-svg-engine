@@ -17,6 +17,7 @@ export default class World {
   private camera: Camera
   private bg = { width: 0, url: '' }
   private styleString = ''
+  private updateFunction: () => void
 
   private zFar = 1000000
   private fov = 45
@@ -98,6 +99,11 @@ export default class World {
     
     this.objects.push(...objects)
   }
+
+  public setUpdateFunction(cb: () => void): void {
+    this.updateFunction = cb
+  }
+
   //animate
   public run(fps: number) {
     let fpsInterval: number 
@@ -111,6 +117,9 @@ export default class World {
       if (elapsed > fpsInterval) {
         past = now - (elapsed % fpsInterval)
         this.render()
+        if (this.updateFunction) {
+          this.updateFunction()
+        }
       }
     }
   

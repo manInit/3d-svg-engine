@@ -14,6 +14,7 @@ declare global {
     sphere: (r: number, x: number, y: number, z: number, color: string) => Sphere
     add: (...obj: ObjectWorld[]) => void
 
+    update: (cb: () => void) => void
     setBackground: (urlImage: string) => void
     saveScreen: () => void
   }
@@ -26,7 +27,7 @@ window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y =
 window.sphere = (r: number, x = 0, y = 0, z = 0, color = 'black') => new Sphere({x, y, z}, r, color)
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
-
+window.update = (cb: () => void) => world.setUpdateFunction(cb)
 window.saveScreen = () => {
   const svgRoot = world.svgRootElement
   const serializer = new XMLSerializer()
@@ -44,3 +45,5 @@ window.saveScreen = () => {
 }
 
 world.run(60)
+
+
