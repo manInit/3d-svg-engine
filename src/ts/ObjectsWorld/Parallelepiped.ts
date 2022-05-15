@@ -53,6 +53,6 @@ export default class Parallelepiped extends ObjectWorld {
     if (texture) {
       for (const p of this.polygons) p.setTexture(texture)
     }
-    this.translate(-center.x, -center.y, -center.z)
+    this.translate(center.x, center.y, center.z)
   }
 }

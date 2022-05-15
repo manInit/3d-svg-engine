@@ -11,7 +11,7 @@ declare global {
     cube: (size: number, x: number, y: number, z: number, color: string) => Cube
     pyramid: (size: number, x: number, y: number, z: number, color: string) => Pyramid
     parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
-    sphere: (x: number, y: number, z: number, r: number, color: string) => Sphere
+    sphere: (r: number, x: number, y: number, z: number, color: string) => Sphere
     add: (...obj: ObjectWorld[]) => void
 
     setBackground: (urlImage: string) => void
@@ -23,7 +23,7 @@ const world = new World(document.getElementById('world'))
 window.cube = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Cube(size, {x, y, z}, color)
 window.pyramid = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Pyramid(size, {x, y, z}, color)
 window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y = 0, z = 0, color = 'black') => new Parallelepiped(sizea, sizeb, sizec, {x, y, z}, color)
-window.sphere = (x: number, y: number, z: number, r: number, color = 'black') => new Sphere({x, y, z}, r, color)
+window.sphere = (r: number, x = 0, y = 0, z = 0, color = 'black') => new Sphere({x, y, z}, r, color)
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
 

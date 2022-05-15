@@ -7,8 +7,8 @@ export default class Sphere extends ObjectWorld {
     super()
     this.polygons = []
 
-    const sectorCount = 15
-    const stackCount = 15
+    const sectorCount = 10
+    const stackCount = 10
     const sectorStep = 2 * Math.PI / sectorCount;
     const stackStep = Math.PI / stackCount;
 
@@ -34,12 +34,14 @@ export default class Sphere extends ObjectWorld {
           verticies[k1 + 1],
           verticies[k2 + 1],
           verticies[k2]
-        ]))
+        ], color))
       }
     }
 
     if (texture) {
       for (const p of this.polygons) p.setTexture(texture)
     }
+
+    this.translate(centerPoint.x, centerPoint.y, centerPoint.z)
   }
 }
