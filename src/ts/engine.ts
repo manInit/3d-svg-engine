@@ -1,14 +1,17 @@
 import '../css/3dengine.css'
 import ObjectWorld from './core/ObjectWorld'
-
+import Parallelepiped from './ObjectsWorld/Parallelepiped'
 import World from './core/World'
 import Cube from './ObjectsWorld/Cube'
 import Pyramid from './ObjectsWorld/Pyramid'
+import Sphere from './ObjectsWorld/Sphere'
 
 declare global {
   interface Window { 
     cube: (size: number, x: number, y: number, z: number, color: string) => Cube
     pyramid: (size: number, x: number, y: number, z: number, color: string) => Pyramid
+    parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
+    sphere: (x: number, y: number, z: number, r: number, color: string) => Sphere
     add: (...obj: ObjectWorld[]) => void
 
     setBackground: (urlImage: string) => void
@@ -19,6 +22,8 @@ declare global {
 const world = new World(document.getElementById('world'))
 window.cube = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Cube(size, {x, y, z}, color)
 window.pyramid = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Pyramid(size, {x, y, z}, color)
+window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y = 0, z = 0, color = 'black') => new Parallelepiped(sizea, sizeb, sizec, {x, y, z}, color)
+window.sphere = (x: number, y: number, z: number, r: number, color = 'black') => new Sphere({x, y, z}, r, color)
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
 
