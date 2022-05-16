@@ -5,6 +5,7 @@ import World from './core/World'
 import Cube from './ObjectsWorld/Cube'
 import Pyramid from './ObjectsWorld/Pyramid'
 import Sphere from './ObjectsWorld/Sphere'
+import Floor from './ObjectsWorld/Floor'
 
 declare global {
   interface Window { 
@@ -12,6 +13,7 @@ declare global {
     pyramid: (size: number, x: number, y: number, z: number, color: string) => Pyramid
     parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
     sphere: (r: number, x: number, y: number, z: number, color: string) => Sphere
+    floor: (size: number, x: number, y: number, z: number, color: string) => Floor
     add: (...obj: ObjectWorld[]) => void
 
     update: (cb: () => void) => void
@@ -25,6 +27,7 @@ window.cube = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Cube(s
 window.pyramid = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Pyramid(size, {x, y, z}, color)
 window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y = 0, z = 0, color = 'black') => new Parallelepiped(sizea, sizeb, sizec, {x, y, z}, color)
 window.sphere = (r: number, x = 0, y = 0, z = 0, color = 'black') => new Sphere({x, y, z}, r, color)
+window.floor = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Floor(size, {x, y, z}, color)
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
 window.update = (cb: () => void) => world.setUpdateFunction(cb)
