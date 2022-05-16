@@ -1,15 +1,18 @@
 import ObjectWorld from '../core/ObjectWorld'
+import Point from '../core/Point'
 import Polygon from '../core/Polygon'
 
 export default class Square extends ObjectWorld {
-  constructor(size: number) {
+  constructor(size: number, center: Point, color: string) {
     super()
-    const points = [
-      { x: 0, y: 0, z: 2 }, 
-      { x: size, y: 0, z: 2 }, 
-      { x: size, y: size, z: 2 }, 
-      { x: 0, y: size, z: 2 }
+    this.polygons = [
+      new Polygon([
+        { x: -size / 2, y: -size / 2, z: 0 }, 
+        { x: size / 2, y: -size / 2, z: 0 }, 
+        { x: size / 2, y: size / 2, z: 0 }, 
+        { x: -size / 2, y: size / 2, z: 0 }
+      ], color)
     ]
-    this.polygons = [new Polygon(points)]
+    this.translate(center.x, center.y, center.z)
   }
 }

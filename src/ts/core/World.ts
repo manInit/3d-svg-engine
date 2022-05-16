@@ -36,6 +36,10 @@ export default class World {
     this.renderPipe = new RenderPipe(root.clientWidth, root.clientHeight, z0, this.zFar, this.camera)
   }
 
+  get cameraObj(): Camera {
+    return this.camera
+  }
+
   get svgRootElement(): SVGSVGElement {
     return this.svgRoot
   }
@@ -117,9 +121,6 @@ export default class World {
       if (elapsed > fpsInterval) {
         past = now - (elapsed % fpsInterval)
         this.render()
-        if (this.updateFunction) {
-          this.updateFunction()
-        }
       }
     }
   
@@ -141,6 +142,9 @@ export default class World {
   private render(): void {
     this.camera.update()
     this.updateBg()
+    if (this.updateFunction) {
+      this.updateFunction()
+    }
     if (this.polygons.length === 0) return
 
     for (const p of this.polygons) {

@@ -2,7 +2,7 @@ import { degToRad } from '../utils/angle'
 
 export default class Camera {
   public rotation = { ax: 0, ay: 0, az: 0 }
-  public position = { x: 0, y: 0, z:0 }
+  public position = { x: 100, y: 100, z: 100 }
   
   private rotationSpeed = { ax: 0, ay: 0, az: 0 }
   private speedComponents = { x: 0, y: 0, z: 0 }

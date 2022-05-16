@@ -2,7 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const isDev = false
 
@@ -26,27 +26,24 @@ const webpackConfig = {
       }
     ]
   },
-  devtool: 'source-map',
+  devtool: isDev ? 'source-map' : false,
   resolve: {
     extensions: ['.ts', '.js']
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      inject: false
+      inject: false,
+      minify: false
     }),
     new MiniCssExtractPlugin({
       filename: '3dengine.css'
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: './src/textures', to: './textures' }
-      ]
     })
   ],
   optimization: {
     minimizer: [
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin(),
+      new TerserPlugin()
     ],
   },
   performance: {

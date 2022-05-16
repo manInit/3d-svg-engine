@@ -3,9 +3,12 @@ import Point from '../core/Point'
 import Polygon from '../core/Polygon'
 
 export default class Sphere extends ObjectWorld {
+  private centerPoint: Point
+
   constructor(centerPoint: Point, radius: number, color = 'black', texture?: string) {
     super()
     this.polygons = []
+    this.centerPoint = centerPoint
 
     const sectorCount = 10
     const stackCount = 10
@@ -43,5 +46,12 @@ export default class Sphere extends ObjectWorld {
     }
 
     this.translate(centerPoint.x, centerPoint.y, centerPoint.z)
+  }
+
+  
+  public setCenterPoint(x: number, y: number, z: number) {
+    this.translate(-this.centerPoint.x, -this.centerPoint.y, -this.centerPoint.z)
+    this.translate(x, y, z)
+    this.centerPoint = {x, y, z}
   }
 }

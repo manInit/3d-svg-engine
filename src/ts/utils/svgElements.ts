@@ -1,7 +1,5 @@
 const createPolygonElem = (): SVGPolygonElement => {
   const svgPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-  svgPolygon.setAttribute('stroke', 'red')
-  svgPolygon.setAttribute('stroke-width', '2')
   return svgPolygon
 }
 

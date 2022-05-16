@@ -6,6 +6,8 @@ import Cube from './ObjectsWorld/Cube'
 import Pyramid from './ObjectsWorld/Pyramid'
 import Sphere from './ObjectsWorld/Sphere'
 import Floor from './ObjectsWorld/Floor'
+import Camera from './core/Camera'
+import Square from './ObjectsWorld/Square'
 
 declare global {
   interface Window { 
@@ -14,7 +16,9 @@ declare global {
     parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
     sphere: (r: number, x: number, y: number, z: number, color: string) => Sphere
     floor: (size: number, x: number, y: number, z: number, color: string) => Floor
+    square: (size: number, x: number, y: number, z: number, color: string) => Square
     add: (...obj: ObjectWorld[]) => void
+    player: Camera
 
     update: (cb: () => void) => void
     setBackground: (urlImage: string) => void
@@ -23,14 +27,19 @@ declare global {
 }
 
 const world = new World(document.getElementById('world'))
+
 window.cube = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Cube(size, {x, y, z}, color)
 window.pyramid = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Pyramid(size, {x, y, z}, color)
 window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y = 0, z = 0, color = 'black') => new Parallelepiped(sizea, sizeb, sizec, {x, y, z}, color)
 window.sphere = (r: number, x = 0, y = 0, z = 0, color = 'black') => new Sphere({x, y, z}, r, color)
 window.floor = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Floor(size, {x, y, z}, color)
+window.square = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Square(size, {x, y, z}, color)
+
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
 window.update = (cb: () => void) => world.setUpdateFunction(cb)
+window.player = world.cameraObj
+
 window.saveScreen = () => {
   const svgRoot = world.svgRootElement
   const serializer = new XMLSerializer()
@@ -47,6 +56,6 @@ window.saveScreen = () => {
   a.dispatchEvent(e)
 }
 
-world.run(60)
+world.run(120)
 
 

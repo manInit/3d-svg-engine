@@ -14,11 +14,6 @@ svg {
     height: 100%;
 }
 
-polygon {
-    stroke: red;
-    stroke-width: 1;
-}
-
 #world {
     width: 100vw;
     height: 100vh;
