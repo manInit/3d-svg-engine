@@ -1,57 +1,129 @@
- ## Примерная структура Html для начала работы
- 
-  ```html
-  <!DOCTYPE html>
+# 3D SVG engine
+Lightweight 3d engine that uses SVG as a rendering environment.
+
+Used technologies:
+* Webpack for build project
+* Typescript as main language engine
+
+## Getting started
+
+You can link to a 3d SVG engine files hosted online. You can use these links:
+```html
+<script src="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.dist.js"></script>
+```
+and 
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.css">
+```
+A sample HTML page might look like this:
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Пример</title>
-    <!--подключаем стили-->
-    <link rel="stylesheet" href="../dist/3dengine.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.css">
 </head>
 <body>
-    <!--подключаем сам модуль-->
-    <script src="../dist/3dengine.dist.js"></script>
-    
-    <!--подключаем собтсвенный код-->
-    <script src="index.js"></script>
+  <div id="world"></div>
+  <script src="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.dist.js"></script>
 </body>
 </html>
-  ```
-
-## Пример кода
-```js
-setBackground('./1.png')
-showMapWorld(200)
-
-let cube1 = cube(100, 'red', 100, 100, 1000)
-add(cube1)
-
-let pyramid1 = pyramid(350, 'yellow', -100, 0, -100)
-add(pyramid1)
-
-let plane1 = plane('orange', {x:0, y: 0, z: 0}, {x: 100, y: 0, z: 0}, {x: 100, y: 100, z: 0})
-add(plane1)
-
-let floor1 = floor(300, 'blue', -500, -10, -500)
-add(floor1)
 ```
 
-В итоге получаем
-![3d engine example](https://i.ibb.co/YTd3NK1/12341.png)
+## Documentation
 
+### Basic figures
+#### cube(size, x, y, z, color)
+Create  object of cube
+##### parameters: 
 
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :-----: |
+| *size* |  Cube side length | -  | ```10.23``` |
+| *x* |    x coordinate of the center of the cube    | ```0```  | ```12``` | 
+| *y* |    y coordinate of the center of the cube    | ```0```  | ```23``` |
+| *z* |    z coordinate of the center of the cube   | ```0```  | ```34``` |
+| *color* | Cube color | ```'black'``` | ```'#ff4433ee'``` |
 
-## Документация
-```ts
-    add(...objects): void //добавить объект на сцену
-    showMapWorld(size: number): void //показать карту
-    hideMapWorld(): void // скрыть карту
+#### pyramid(size, x, y, z, color)
+Create  object of pyramid
+##### parameters: 
 
-    setBackground(urlImage: string): void //установить задний фон
+| Param    | Description       | Default | Example
+|---------:|:-------------| :------: | :------: |
+| *size* |  Pyramid side length | -  | ```23.4``` |
+| *x* |    x coordinate of the center of the pyramid    | ``0``  | ```23.3``` |
+| *y* |    y coordinate of the center of the pyramid    | ``0``  | ```534.2```|
+| *z* |    z coordinate of the center of the pyramid   | ``0``  | ```-23.3```|
+| *color* | Pyramid color | ```'black'``` |  ```'#ffee99ee'``` |
 
-    plane(color: string, ...points: [Point]): Plane //плоскость
-    cube(size: number, color: string, x: number, y: number, z: number) //куб
-    floor(size: number, color: string, x: number, y: number, z: number) //пол
-    pyramid(size: number, color: string, x: number, y: number, z: number) //пирамида
+#### parallelepiped(sizea, sizeb, sizec, x, y, z, color)
+Create  object of parallelepiped
+##### parameters: 
+
+| Param    | Description       | Default |  Example
+|---------:|:-------------| :------: | :------: |
+| *sizea* |  Parallelepiped length to depth   | -  | ```23.4``` |
+| *sizeb* |  Parallelepiped height | -  | ```-12.3``` |
+| *sizec* |  Parallelepiped width | -  | ```-10.3``` |
+| *x* |    x coordinate of the center of the parallelepiped    | ```0```  | ```23``` |
+| *y* |    y coordinate of the center of the parallelepiped    | ```0```  | ```2.2``` |
+| *z* |    z coordinate of the center of the parallelepiped    | ```0```  | ```-3.2``` |
+| *color* | Pyramid color | ```'black'``` | ```'#ff443366'``` |
+
+#### sphere(r, x, y, z, color)
+Create  object of sphere
+##### parameters: 
+
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :------: |
+| *r* |  Sphere radius  | -  | ```34.4``` |
+| *x* |    x coordinate of the center of the parallelepiped    | ```0```  | ```23``` |
+| *y* |    y coordinate of the center of the parallelepiped    | ```0```  | ```23.4``` |
+| *z* |    z coordinate of the center of the parallelepiped    | ```0```  | ```34.5``` |
+| *color* | Pyramid color | ```'black'``` | ```'#99339900'``` |
+
+### Player object
+You have access to the global player object which contains information about the camera position and direction of view.
+You can set these properties too. Like this:
+```js 
+    player.position = { x: 100, y: 150, z: 100 }
 ```
+#### Properties
+| Property    | Description | Example |
+|---------:|:-------------| :----: |
+| *position* |  Object with coords camera position | ```{ x: 23, y: 46, z: -100 }``` |
+| *rotation* |  Object with angles of camera (angles in degrees)  | ```{ ax: 123, ay: 10, az: -10 }``` |
+
+
+### Basic functions 
+#### add(...objects)
+Add objects on scene
+##### parameters: 
+
+| Param    | Description       | Default | Example|
+|---------:|:-------------| :------: | :----: |
+| *...objects* |  Objects we want to add to the scene   | -  |```cube(12), sphere(23), pyramid(1)``` |
+
+#### update(callbackFunction)
+Use custom function to update state scene. Like move figures or rotate and etc. This function will be called every frame
+##### parameters: 
+
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :-----: |
+| *callbackFunction* |  Function    | -  | ```() => myCube.translate(1, 0, 0)```|
+
+#### setBackground(urlImage)
+Set background image to scene. This image will be translated left/right with rotate camera.
+##### parameters: 
+
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :-----: |
+| *urlImage* |  Path to image    | -  | ```'./sky.png'```|
+
+
+#### saveScreen()
+Capture screenshot and download as SVG file
+##### parameters: 
+Without params
