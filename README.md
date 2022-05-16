@@ -5,7 +5,7 @@ Used technologies:
 * Webpack for build project
 * Typescript as main language engine
 
-## Getting started
+# Getting started
 
 You can link to a 3d SVG engine files hosted online. You can use these links:
 ```html
@@ -30,13 +30,25 @@ A sample HTML page might look like this:
 </body>
 </html>
 ```
+## How to control camera
+Root elem for render is element with id = 'world'. If this element doesnt exists in document it's will be created automatically.
 
-## Documentation
+For pointer lock you should click on root tag. 
 
-### Basic figures
-#### cube(size, x, y, z, color)
+You can rotate camera with mouse movement. And keys to control camera
+### keys
+| Key    | Effect       | 
+|---------:|:-------------| 
+| *WASD* |  Move camera | 
+| *shift* |    Flying down |
+| *spacebar* |   Flying up |
+| *arrows* |    Rotate camera |
+# Documentation
+
+## Basic figures
+### cube(size, x, y, z, color)
 Create  object of cube
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default | Example |
 |---------:|:-------------| :------: | :-----: |
@@ -46,9 +58,9 @@ Create  object of cube
 | *z* |    z coordinate of the center of the cube   | ```0```  | ```34``` |
 | *color* | Cube color | ```'black'``` | ```'#ff4433ee'``` |
 
-#### pyramid(size, x, y, z, color)
+### pyramid(size, x, y, z, color)
 Create  object of pyramid
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default | Example
 |---------:|:-------------| :------: | :------: |
@@ -58,9 +70,9 @@ Create  object of pyramid
 | *z* |    z coordinate of the center of the pyramid   | ``0``  | ```-23.3```|
 | *color* | Pyramid color | ```'black'``` |  ```'#ffee99ee'``` |
 
-#### parallelepiped(sizea, sizeb, sizec, x, y, z, color)
+### parallelepiped(sizea, sizeb, sizec, x, y, z, color)
 Create  object of parallelepiped
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default |  Example
 |---------:|:-------------| :------: | :------: |
@@ -72,9 +84,9 @@ Create  object of parallelepiped
 | *z* |    z coordinate of the center of the parallelepiped    | ```0```  | ```-3.2``` |
 | *color* | Pyramid color | ```'black'``` | ```'#ff443366'``` |
 
-#### sphere(r, x, y, z, color)
+### sphere(r, x, y, z, color)
 Create  object of sphere
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default | Example |
 |---------:|:-------------| :------: | :------: |
@@ -84,46 +96,46 @@ Create  object of sphere
 | *z* |    z coordinate of the center of the parallelepiped    | ```0```  | ```34.5``` |
 | *color* | Pyramid color | ```'black'``` | ```'#99339900'``` |
 
-### Player object
+## Player object
 You have access to the global player object which contains information about the camera position and direction of view.
 You can set these properties too. Like this:
 ```js 
     player.position = { x: 100, y: 150, z: 100 }
 ```
-#### Properties
+### Properties
 | Property    | Description | Example |
 |---------:|:-------------| :----: |
 | *position* |  Object with coords camera position | ```{ x: 23, y: 46, z: -100 }``` |
 | *rotation* |  Object with angles of camera (angles in degrees)  | ```{ ax: 123, ay: 10, az: -10 }``` |
 
 
-### Basic functions 
-#### add(...objects)
+## Basic functions 
+### add(...objects)
 Add objects on scene
-##### parameters: 
+#### parameters: 
 
 | Param    | Description       | Default | Example|
 |---------:|:-------------| :------: | :----: |
 | *...objects* |  Objects we want to add to the scene   | -  |```cube(12), sphere(23), pyramid(1)``` |
 
-#### update(callbackFunction)
+### update(callbackFunction)
 Use custom function to update state scene. Like move figures or rotate and etc. This function will be called every frame
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default | Example |
 |---------:|:-------------| :------: | :-----: |
 | *callbackFunction* |  Function    | -  | ```() => myCube.translate(1, 0, 0)```|
 
-#### setBackground(urlImage)
+### setBackground(urlImage)
 Set background image to scene. This image will be translated left/right with rotate camera.
-##### parameters: 
+#### Parameters: 
 
 | Param    | Description       | Default | Example |
 |---------:|:-------------| :------: | :-----: |
 | *urlImage* |  Path to image    | -  | ```'./sky.png'```|
 
 
-#### saveScreen()
+### saveScreen()
 Capture screenshot and download as SVG file
-##### parameters: 
+#### Parameters: 
 Without params

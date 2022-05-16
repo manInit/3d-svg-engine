@@ -11,6 +11,8 @@ import Square from './ObjectsWorld/Square'
 
 declare global {
   interface Window { 
+    player: Camera
+
     cube: (size: number, x: number, y: number, z: number, color: string) => Cube
     pyramid: (size: number, x: number, y: number, z: number, color: string) => Pyramid
     parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
@@ -20,13 +22,9 @@ declare global {
     update: (cb: () => void) => void
     setBackground: (urlImage: string) => void
     saveScreen: () => void
-
-
-
+    
     floor: (size: number, x: number, y: number, z: number, color: string) => Floor
     square: (size: number, x: number, y: number, z: number, color: string) => Square
-    
-    player: Camera
   }
 }
 
@@ -34,6 +32,7 @@ let rootElem = document.getElementById('world')
 if (!rootElem) {
   rootElem = document.createElement('div')
   rootElem.id = 'world'
+  document.body.prepend(rootElem)
 }
 const world = new World(rootElem)
 
