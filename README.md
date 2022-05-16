@@ -47,8 +47,8 @@ You can rotate camera with mouse movement. And keys to control camera
 # Examples
 Here some examples usage this library
 
-* Simple model solar system: [Exmaple](http://man_init.istu.webappz.ru/3d/dist/) (![example](./images/solar.png))
-* Voxel draw: [Exmaple](http://man_init.istu.webappz.ru/3d/example2/) (![example](./images/voxels.png))
+* Simple model solar system: [Exmaple](http://man_init.istu.webappz.ru/3d/dist/) ![example](./images/solar.png)
+* Voxel draw: [Exmaple](http://man_init.istu.webappz.ru/3d/example2/) ![example](./images/voxels.png)
 # Documentation
 
 ## Basic figures
