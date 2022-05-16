@@ -150,9 +150,8 @@ export default class World {
     for (const p of this.polygons) {
       p.render(this.renderPipe)
     }
-    //отсоритровать по averageDistance
     this.polygons.sort((p1, p2) => p2.averageDistance - p1.averageDistance)
-    //изменяем  dom
+
     let jStart = 0
     let i = 0
     while (this.polygons[i].tagElem.isEqualNode(this.groupObject.children[i])) {

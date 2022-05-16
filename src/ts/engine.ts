@@ -15,25 +15,33 @@ declare global {
     pyramid: (size: number, x: number, y: number, z: number, color: string) => Pyramid
     parallelepiped: (sizea: number, sizeb: number, sizec: number, x: number, y: number, z: number, color: string) => Parallelepiped
     sphere: (r: number, x: number, y: number, z: number, color: string) => Sphere
-    floor: (size: number, x: number, y: number, z: number, color: string) => Floor
-    square: (size: number, x: number, y: number, z: number, color: string) => Square
+    
     add: (...obj: ObjectWorld[]) => void
-    player: Camera
-
     update: (cb: () => void) => void
     setBackground: (urlImage: string) => void
     saveScreen: () => void
+
+
+
+    floor: (size: number, x: number, y: number, z: number, color: string) => Floor
+    square: (size: number, x: number, y: number, z: number, color: string) => Square
+    
+    player: Camera
   }
 }
 
-const world = new World(document.getElementById('world'))
+let rootElem = document.getElementById('world')
+if (!rootElem) {
+  rootElem = document.createElement('div')
+  rootElem.id = 'world'
+}
+const world = new World(rootElem)
 
 window.cube = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Cube(size, {x, y, z}, color)
 window.pyramid = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Pyramid(size, {x, y, z}, color)
 window.parallelepiped = (sizea: number, sizeb: number, sizec: number, x = 0, y = 0, z = 0, color = 'black') => new Parallelepiped(sizea, sizeb, sizec, {x, y, z}, color)
 window.sphere = (r: number, x = 0, y = 0, z = 0, color = 'black') => new Sphere({x, y, z}, r, color)
 window.floor = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Floor(size, {x, y, z}, color)
-window.square = (size: number, x = 0, y = 0, z = 0, color = 'black') => new Square(size, {x, y, z}, color)
 
 window.setBackground = (urlImage: string) => world.setBackground(urlImage)
 window.add = (...obj: ObjectWorld[]) => world.addObjects(...obj)
