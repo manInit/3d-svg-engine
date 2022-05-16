@@ -22,7 +22,7 @@ declare global {
     update: (cb: () => void) => void
     setBackground: (urlImage: string) => void
     saveScreen: () => void
-    
+
     floor: (size: number, x: number, y: number, z: number, color: string) => Floor
     square: (size: number, x: number, y: number, z: number, color: string) => Square
   }
@@ -32,7 +32,7 @@ let rootElem = document.getElementById('world')
 if (!rootElem) {
   rootElem = document.createElement('div')
   rootElem.id = 'world'
-  document.body.prepend(rootElem)
+  document.body.append(rootElem)
 }
 const world = new World(rootElem)
 
