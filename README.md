@@ -21,12 +21,15 @@ A sample HTML page might look like this:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Пример</title>
+    <title>Starter template</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.css">
 </head>
 <body>
   <div id="world"></div>
   <script src="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.dist.js"></script>
+  <script>
+    add(cube(10))
+  </script>
 </body>
 </html>
 ```
