@@ -30,12 +30,12 @@ A sample HTML page might look like this:
 </body>
 </html>
 ```
+> Root elem for render is element with id = "world". This element should be in document
 ## How to control camera
-Root elem for render is element with id = 'world'. If this element doesnt exists in document it's will be created automatically.
 
 For pointer lock you should click on root tag. 
 
-You can rotate camera with mouse movement. And keys to control camera
+You can rotate camera with mouse movement. And  next keys to control camera:
 ### keys
 | Key    | Effect       | 
 |---------:|:-------------| 
@@ -47,8 +47,8 @@ You can rotate camera with mouse movement. And keys to control camera
 # Examples
 Here some examples usage this library
 
-* Simple model solar system: [Exmaple](http://man_init.istu.webappz.ru/3d/dist/) ![example](./images/solar.png)
-* Voxel draw: [Exmaple](http://man_init.istu.webappz.ru/3d/example2/) ![example](./images/voxels.png)
+* Simple model solar system: [Example](http://man_init.istu.webappz.ru/3d/dist/) ![Example](./images/solar.png)
+* Voxel draw: [Example](http://man_init.istu.webappz.ru/3d/example2/) ![Example](./images/voxels.png)
 # Documentation
 
 ## Basic figures
@@ -101,6 +101,28 @@ Create  object of sphere
 | *y* |    y coordinate of the center of the parallelepiped    | ```0```  | ```23.4``` |
 | *z* |    z coordinate of the center of the parallelepiped    | ```0```  | ```34.5``` |
 | *color* | Pyramid color | ```'black'``` | ```'#99339900'``` |
+
+## Basic figures methods
+All figures have methods for moving and rotating
+### <figure>.translate(x, y, z)
+Мove the figure. Arguments define how much the figure moves in each direction.
+#### Parameters: 
+
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :------: |
+| *x* |    Moves along x axis     | - | ```23``` |
+| *y* |    Moves along y axis    | - | ```23.4``` |
+| *z* |    Moves along z axis    | - | ```34.5``` |
+
+### <figure>.rotate(ax, ay, az)
+Rotate figure around the center coordinates (Angles in degrees). 
+#### Parameters: 
+
+| Param    | Description       | Default | Example |
+|---------:|:-------------| :------: | :------: |
+| *ax* |    Rotate around the x axis     | - | ```23``` |
+| *ay* |    Rotate around the y axis    | - | ```23.4``` |
+| *az* |    Rotate around the z axis    | - | ```34.5``` |
 
 ## Player object
 You have access to the global player object which contains information about the camera position and direction of view.
