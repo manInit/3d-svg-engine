@@ -1,5 +1,20 @@
 {
-  "private": true,
+  "name": "3d-svg-engine",
+  "version": "0.1.0",
+  "description": "lightweight 3d engine based on SVG",
+  "main": "/dist/3dengine.dist.js",
+  "keywords": [
+    "3d",
+    "svg",
+    "engine"
+  ],
+  "author": "Denis Bronnikov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manInit/3d-svg-engine"
+  },
+  "homepage": "https://github.com/manInit/3d-svg-engine",
   "scripts": {
     "start": "webpack serve",
     "build": "webpack"

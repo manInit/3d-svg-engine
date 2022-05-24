@@ -9,11 +9,7 @@ Used technologies:
 
 You can link to a 3d SVG engine files hosted online. You can use these links:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.dist.js"></script>
-```
-and 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.css">
+<script src="https://cdn.jsdelivr.net/npm/3d-svg-engine@0.1.0/dist/3dengine.dist.js"></script>
 ```
 A sample HTML page might look like this:
 ```html
@@ -22,13 +18,15 @@ A sample HTML page might look like this:
 <head>
     <meta charset="UTF-8">
     <title>Starter template</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.css">
 </head>
 <body>
   <div id="world"></div>
-  <script src="https://cdn.jsdelivr.net/gh/manInit/3d-svg-engine/dist/3dengine.dist.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/3d-svg-engine@0.1.0/dist/3dengine.dist.js"></script>
   <script>
-    add(cube(10))
+    // create global object
+    const engine = SVGEngine('world')
+    // add cube on scene
+    engine.add(engine.cube(10))
   </script>
 </body>
 </html>
