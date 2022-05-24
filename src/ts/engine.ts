@@ -1,4 +1,3 @@
-import '../css/3dengine.css'
 import ObjectWorld from './core/ObjectWorld'
 import Parallelepiped from './ObjectsWorld/Parallelepiped'
 import World from './core/World'
@@ -14,6 +13,10 @@ class SVGEngine {
 
   constructor(idWorld: string) {
     const elem = document.getElementById(idWorld)
+    elem.style.overflow = 'hidden'
+    elem.style.backgroundRepeat = 'repeat-x'
+    elem.style.backgroundSize = 'cover'
+
     this.world = new World(elem)
     this.player = this.world.cameraObj
     this.world.run(120)

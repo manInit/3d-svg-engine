@@ -24,6 +24,8 @@ export default class World {
 
   constructor(root: HTMLElement) {
     this.svgRoot = createSVGElem()
+    this.svgRoot.style.width = '100%'
+    this.svgRoot.style.height = '100%'
     this.groupObject = createSVGGElem()
     this.svgRoot.append(this.groupObject)
     root.append(this.svgRoot)
