@@ -31,7 +31,6 @@ A sample HTML page might look like this:
 </body>
 </html>
 ```
-> Root elem for render is element with id = "world". This element should be in document
 ## How to control camera
 
 For pointer lock you should click on root tag. 
