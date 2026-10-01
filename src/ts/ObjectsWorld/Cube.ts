@@ -1,58 +1,13 @@
 import ObjectWorld from '../core/ObjectWorld'
-import Point from '../core/Point'
-import Polygon from '../core/Polygon'
+import type Point from '../core/Point'
+import Parallelepiped from './Parallelepiped'
 
 export default class Cube extends ObjectWorld {
   constructor(size: number, center: Point, color = 'black', texture?: string) {
     super()
-    this.polygons = [
-      //задняя плоскость
-      new Polygon([
-        { x: -size / 2, y: -size / 2, z: -size / 2 },
-        { x: size / 2, y: -size / 2, z: -size / 2 },
-        { x: size / 2, y: size / 2, z: -size / 2 },
-        { x: -size / 2, y: size / 2, z: -size / 2 }
-      ], color),
-      //передняя плоскость
-      new Polygon([
-        { x: -size / 2, y: -size / 2, z: size / 2 },
-        { x: size / 2, y: -size / 2, z: size / 2 },
-        { x: size / 2, y: size / 2, z: size / 2 },
-        { x: -size / 2, y: size / 2, z: size / 2 }
-      ], color),
-      //верхняя
-      new Polygon([
-        { x: -size / 2, y: size / 2, z: -size / 2 },
-        { x: size / 2, y: size / 2, z: -size / 2 },
-        { x: size / 2, y: size / 2, z: size / 2 },
-        { x: -size / 2, y: size / 2, z: size / 2 }
-      ], color),
-      //нижняя
-      new Polygon([
-        { x: -size / 2, y: -size / 2, z: -size / 2 },
-        { x: size / 2, y: -size / 2, z: -size / 2 },
-        { x: size / 2, y: -size / 2, z: size / 2 },
-        { x: -size / 2, y: -size / 2, z: size / 2 }
-      ], color),
-      // правая
-      new Polygon([
-        { x: size / 2, y: -size / 2, z: -size / 2 },
-        { x: size / 2, y: -size / 2, z: size / 2 },
-        { x: size / 2, y: size / 2, z: size / 2 },
-        { x: size / 2, y: size / 2, z: -size / 2 }
-      ], color),
-      //левая
-      new Polygon([
-        { x: -size / 2, y: -size / 2, z: -size / 2 },
-        { x: -size / 2, y: -size / 2, z: size / 2 },
-        { x: -size / 2, y: size / 2, z: size / 2 },
-        { x: -size / 2, y: size / 2, z: -size / 2 }
-      ], color)
-    ]
+    this.polygons = new Parallelepiped(size, size, size, { x: 0, y: 0, z: 0 }, color).polygons
 
-    if (texture) {
-      for (const p of this.polygons) p.setTexture(texture)
-    }
-    this.translate(-center.x, -center.y, -center.z)
+    if (texture) this.setTexture(texture)
+    this.translate(center.x, center.y, center.z)
   }
 }

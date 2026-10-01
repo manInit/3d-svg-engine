@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D SVG engine demo</title>
+    <style>
+      html,
+      body,
+      #world {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="world"></div>
+    <script type="module">
+      import '/src/ts/engine.ts'
+
+      const engine = SVGEngine('world')
+      engine.setBackground('/src/textures/sky.png')
+      engine.player.position = { x: 0, y: 10, z: -60 }
+
+      const cube = engine.cube(10, 0, 10, 0, '#e5484d')
+      const brick = engine.cube(10, 20, 10, 10, 'black', '/src/textures/brick.png')
+      const sphere = engine.sphere(6, -20, 10, 10, '#30a46c')
+      engine.add(cube, brick, sphere, engine.pyramid(8, 0, 25, 0, '#f76b15'), engine.floor(200, 0, 0, 0, '#888'))
+
+      engine.update(() => cube.rotate(1, 1, 0))
+    </script>
+  </body>
+</html>

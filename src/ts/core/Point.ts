@@ -1,5 +1,5 @@
 export default interface Point {
   x: number
-  y: number 
+  y: number
   z: number
 }
