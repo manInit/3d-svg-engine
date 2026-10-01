@@ -14,16 +14,14 @@ const createCircleElem = (cx: number, cy: number, r: number): SVGCircleElement =
 
 const createSVGElem = (): SVGSVGElement => {
   const elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  if (!(elem instanceof SVGSVGElement))
-    throw new Error('Expected svg root elem')
+  if (!(elem instanceof SVGSVGElement)) throw new Error('Expected svg root elem')
 
   return elem
 }
 
 const createSVGGElem = (): SVGGElement => {
   const elem = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-  if (!(elem instanceof SVGGElement))
-    throw new Error('Expected svg g elem')
+  if (!(elem instanceof SVGGElement)) throw new Error('Expected svg g elem')
 
   return elem
 }
@@ -45,17 +43,11 @@ const createTextureElement = (urlTexture: string, id: string): SVGDefsElement =>
   image.setAttribute('width', '1')
   image.setAttribute('height', '1')
   image.setAttribute('preserveAspectRatio', 'none')
-  
+
   pattern.append(image)
   defs.append(pattern)
-  
+
   return defs
 }
 
-export {
-  createPolygonElem,
-  createCircleElem,
-  createSVGElem,
-  createTextureElement,
-  createSVGGElem
-}
+export { createPolygonElem, createCircleElem, createSVGElem, createTextureElement, createSVGGElem }
