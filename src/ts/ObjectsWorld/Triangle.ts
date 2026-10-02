@@ -13,6 +13,7 @@ export default class Triangle extends ObjectWorld {
       z: (point1.z + point2.z + point3.z) / 3,
     }
 
+    this.setDoubleSided(true)
     if (texture) this.setTexture(texture)
   }
 }

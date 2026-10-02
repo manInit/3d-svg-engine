@@ -5,12 +5,12 @@
     "correctness": "error",
     "suspicious": "warn"
   },
-  "ignorePatterns": ["dist"],
+  "ignorePatterns": ["dist", "demo-dist"],
   "rules": {
     "vitest/expect-expect": [
       "error",
       {
-        "assertFunctionNames": ["expect", "expectPoint"]
+        "assertFunctionNames": ["expect", "expectPoint", "expectOutward"]
       }
     ]
   }

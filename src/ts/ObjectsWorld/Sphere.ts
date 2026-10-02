@@ -3,11 +3,11 @@ import type Point from '../core/Point'
 import Polygon from '../core/Polygon'
 
 export default class Sphere extends ObjectWorld {
-  constructor(centerPoint: Point, radius: number, color = 'black', texture?: string) {
+  constructor(centerPoint: Point, radius: number, color = 'black', texture?: string, segments = 10) {
     super()
 
-    const sectorCount = 10
-    const stackCount = 10
+    const sectorCount = Math.max(3, Math.round(segments))
+    const stackCount = Math.max(2, Math.round(segments))
     const sectorStep = (2 * Math.PI) / sectorCount
     const stackStep = Math.PI / stackCount
 
@@ -32,6 +32,7 @@ export default class Sphere extends ObjectWorld {
       }
     }
 
+    this.orientOutward()
     if (texture) this.setTexture(texture)
     this.translate(centerPoint.x, centerPoint.y, centerPoint.z)
   }

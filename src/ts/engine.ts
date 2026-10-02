@@ -10,6 +10,17 @@ import Triangle from './ObjectsWorld/Triangle'
 import BackgroundElem from './ObjectsWorld/BackgroundElem'
 import Camera from './core/Camera'
 import type Point from './core/Point'
+import Mesh, { type MeshOptions } from './ObjectsWorld/Mesh'
+import ParametricSurface, {
+  mobiusFunction,
+  torusFunction,
+  wavesFunction,
+  type SurfaceFunction,
+  type SurfaceOptions,
+} from './ObjectsWorld/ParametricSurface'
+import { parseObj } from './utils/obj'
+import type { FogOptions, LightOptions } from './core/Lighting'
+import type { GlowOptions } from './core/World'
 
 const DEFAULT_FPS = 120
 
@@ -42,8 +53,8 @@ class SVGEngine {
     color = 'black',
     texture?: string,
   ) => new Parallelepiped(sizea, sizeb, sizec, { x, y, z }, color, texture)
-  sphere = (r: number, x = 0, y = 0, z = 0, color = 'black', texture?: string) =>
-    new Sphere({ x, y, z }, r, color, texture)
+  sphere = (r: number, x = 0, y = 0, z = 0, color = 'black', texture?: string, segments = 10) =>
+    new Sphere({ x, y, z }, r, color, texture, segments)
   floor = (size: number, x = 0, y = 0, z = 0, color = 'black', texture?: string) =>
     new Floor(size, { x, y, z }, color, texture)
   square = (size: number, x = 0, y = 0, z = 0, color = 'black', texture?: string) =>
@@ -51,11 +62,48 @@ class SVGEngine {
   triangle = (point1: Point, point2: Point, point3: Point, color = 'black', texture?: string) =>
     new Triangle(point1, point2, point3, color, texture)
 
+  torus = (R: number, r: number, x = 0, y = 0, z = 0, color = 'black', segments = 32) =>
+    new ParametricSurface(
+      torusFunction(R, r),
+      { x, y, z },
+      {
+        color,
+        closed: true,
+        segmentsU: segments,
+        segmentsV: Math.max(3, Math.round(segments / 2)),
+      },
+    )
+  mobius = (R: number, width: number, x = 0, y = 0, z = 0, color = 'black', segments = 48) =>
+    new ParametricSurface(mobiusFunction(R, width), { x, y, z }, { color, segmentsU: segments, segmentsV: 4 })
+  waves = (size: number, height: number, x = 0, y = 0, z = 0, color = 'black', segments = 24) =>
+    new ParametricSurface(wavesFunction(size, height), { x, y, z }, { color, segmentsU: segments, segmentsV: segments })
+  surface = (fn: SurfaceFunction, x = 0, y = 0, z = 0, options: SurfaceOptions = {}) =>
+    new ParametricSurface(fn, { x, y, z }, options)
+
+  /** модель из текста в формате Wavefront OBJ */
+  parseObj = (text: string, x = 0, y = 0, z = 0, options: MeshOptions = {}) =>
+    new Mesh(parseObj(text), { x, y, z }, options)
+  /** загружает .obj по адресу и возвращает модель (на сцену её нужно добавить через add) */
+  loadObj = async (url: string, x = 0, y = 0, z = 0, options: MeshOptions = {}) => {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`SVGEngine: failed to load "${url}": ${response.status}`)
+    return this.parseObj(await response.text(), x, y, z, options)
+  }
+
+  setLight = (options: Partial<LightOptions> | null) => this.world.setLight(options)
+  setFog = (options: Partial<FogOptions> | null) => this.world.setFog(options)
+  setGlow = (options: Partial<GlowOptions> | null = {}) => this.world.setGlow(options)
+
   setBackground = (urlImage: string) => this.world.setBackground(urlImage)
   addBackgroundElement = (urlImage: string, x = 0, y = 0) => {
     const elem = new BackgroundElem(urlImage, x, y)
     this.world.addBgElem(elem)
     return elem
+  }
+
+  /** объекты, добавленные на сцену */
+  get objects() {
+    return this.world.objectList
   }
 
   add = (...obj: ObjectWorld[]) => this.world.addObjects(...obj)
@@ -66,21 +114,25 @@ class SVGEngine {
   stop = () => this.world.stop()
   destroy = () => this.world.destroy()
 
-  saveScreen = () => {
-    const svgRoot = this.world.svgRootElement
-    const serializer = new XMLSerializer()
+  /** текущий кадр как SVG-строка; background — цвет подложки (по умолчанию цвет тумана) */
+  toSVG = (background?: string) => this.world.toSVG(background)
 
-    let source = serializer.serializeToString(svgRoot)
-    source = '<?xml version="1.0" standalone="no"?>\r\n' + source
-
-    const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source)
+  /** скачивает текущий кадр векторным .svg-файлом */
+  saveScreen = (filename = 'scene.svg', background?: string) => {
+    const blob = new Blob([this.toSVG(background)], { type: 'image/svg+xml' })
+    const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
 
-    a.download = 'download.svg'
+    a.download = filename
     a.href = url
-    a.dispatchEvent(new MouseEvent('click'))
+    document.body.append(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 }
+
+export type { SVGEngine }
 
 declare global {
   interface Window {

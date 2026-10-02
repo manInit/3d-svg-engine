@@ -17,6 +17,7 @@ export default class Square extends ObjectWorld {
       ),
     ]
 
+    this.setDoubleSided(true)
     if (texture) this.setTexture(texture)
     this.translate(center.x, center.y, center.z)
   }

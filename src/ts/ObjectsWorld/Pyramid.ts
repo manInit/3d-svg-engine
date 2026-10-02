@@ -54,6 +54,7 @@ export default class Pyramid extends ObjectWorld {
       ),
     ]
 
+    this.orientOutward()
     if (texture) this.setTexture(texture)
     this.translate(center.x, center.y, center.z)
   }
