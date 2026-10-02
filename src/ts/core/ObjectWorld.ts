@@ -1,6 +1,7 @@
 import type Point from './Point'
 import Polygon from './Polygon'
 import TransformMatrix from './TransformMatrix'
+import { centroid, dot, polygonNormal, sub } from '../utils/vector'
 
 export default abstract class ObjectWorld {
   public polygons: Polygon[] = []
@@ -31,8 +32,40 @@ export default abstract class ObjectWorld {
     })
   }
 
-  public setTexture(url: string): void {
+  public setTexture(url: string): this {
     for (const polygon of this.polygons) polygon.setTexture(url)
+    return this
+  }
+
+  public setColor(color: string): this {
+    for (const polygon of this.polygons) polygon.fillColor = color
+    return this
+  }
+
+  /** обводка граней; null — убрать обводку */
+  public setStroke(color: string | null, width = 1): this {
+    for (const polygon of this.polygons) polygon.setStroke(color, width)
+    return this
+  }
+
+  /** false — фигура не реагирует на освещение (удобно для «неоновых» объектов) */
+  public setShading(enabled: boolean): this {
+    for (const polygon of this.polygons) polygon.shaded = enabled
+    return this
+  }
+
+  /** true — грани видны с обеих сторон (для незамкнутых поверхностей) */
+  public setDoubleSided(enabled: boolean): this {
+    for (const polygon of this.polygons) polygon.doubleSided = enabled
+    return this
+  }
+
+  //для выпуклых замкнутых фигур: разворачиваем нормали всех граней наружу от центра
+  protected orientOutward(): void {
+    for (const polygon of this.polygons) {
+      const outward = sub(centroid(polygon.points), this.center)
+      if (dot(polygonNormal(polygon.points), outward) < 0) polygon.flip()
+    }
   }
 
   protected mapPoints(fn: (point: Point) => Point): void {

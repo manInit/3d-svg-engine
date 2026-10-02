@@ -3,5 +3,5 @@
   "semi": false,
   "singleQuote": true,
   "printWidth": 120,
-  "ignorePatterns": ["dist", "pnpm-lock.yaml"]
+  "ignorePatterns": ["dist", "demo-dist", "pnpm-lock.yaml"]
 }

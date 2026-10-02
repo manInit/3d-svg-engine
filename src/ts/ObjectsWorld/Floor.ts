@@ -28,6 +28,7 @@ export default class Floor extends ObjectWorld {
       }
     }
 
+    this.setDoubleSided(true)
     if (texture) this.setTexture(texture)
     this.translate(center.x, center.y, center.z)
   }

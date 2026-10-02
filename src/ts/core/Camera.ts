@@ -1,4 +1,4 @@
-import { degToRad } from '../utils/angle'
+import { degToRad, radToDeg } from '../utils/angle'
 import type Point from './Point'
 
 type ControlKey = 'w' | 's' | 'a' | 'd' | 'shift' | 'space'
@@ -55,6 +55,23 @@ export default class Camera {
     this.rotation.ay = (this.rotation.ay + this.rotationSpeed.ay) % 360
     this.rotation.ax %= 360
     this.changeZAngle(this.rotationSpeed.az)
+  }
+
+  /** поворачивает камеру так, чтобы она смотрела на точку target */
+  public lookAt(target: Point): void {
+    const dx = target.x - this.position.x
+    const dy = target.y - this.position.y
+    const dz = target.z - this.position.z
+    if (dx === 0 && dy === 0 && dz === 0) return
+
+    this.rotation.ay = radToDeg(Math.atan2(dx, dz))
+    this.rotation.az = 0
+    this.changeZAngle(radToDeg(Math.atan2(-dy, Math.hypot(dx, dz))))
+  }
+
+  /** захвачен ли сейчас курсор, то есть управляет ли камерой пользователь */
+  get isControlled(): boolean {
+    return document.pointerLockElement === this.root
   }
 
   public destroy(): void {

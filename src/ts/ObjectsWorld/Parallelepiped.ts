@@ -68,6 +68,7 @@ export default class Parallelepiped extends ObjectWorld {
       ),
     ]
 
+    this.orientOutward()
     if (texture) this.setTexture(texture)
     this.translate(center.x, center.y, center.z)
   }
